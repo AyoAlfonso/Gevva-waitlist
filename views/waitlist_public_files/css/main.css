@@ -6,6 +6,16 @@
   font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
 }
 
+@font-face {
+  font-family: CircularStd-Regular;
+  src: url('../fonts/circularstd/circularstd-regular.ttf');
+}
+
+@font-face {
+  font-family: Futur-Regular;
+  src: url('../fonts/futura_light_bt.ttf');
+}
+
 /* ==========================================================================
    #GRID
    ========================================================================== */
@@ -117,7 +127,7 @@ button {
    #PAGE WRAPPER
    ========================================================================== */
 .page-wrapper {
-  min-height: 100vh;
+  min-height: 70vh;
 }
 
 body {
@@ -464,16 +474,13 @@ input {
   -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
   width: 100%;
   display: table;
 }
 
 .card-2 .card-heading {
-  background: url("../images/bg-heading-02.jpg") top left/cover no-repeat;
-  width: 29.1%;
+  background: url("../images/two-girls.jpg") top left/cover no-repeat;
+  width: 50%;
   display: table-cell;
 }
 
@@ -482,6 +489,8 @@ input {
   padding: 80px 90px;
   padding-bottom: 88px;
 }
+
+
 
 @media (max-width: 767px) {
   .card-2 {
@@ -497,4 +506,108 @@ input {
     display: block;
     padding: 60px 50px;
   }
+}
+
+/*adhoc*/
+
+.topright {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #f67878;
+  width: 15px;
+  font-size: 18px;
+  font-weight: 600;
+} 
+.topright:hover {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.split {
+  height: auto;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow: hidden;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: #fff;
+  background-repeat: repeat;
+   /* height:500px; */
+   max-height: 500px ;
+   min-height: 300px;
+   background-repeat: repeat;
+  
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: #fff;
+  /* max-height: 500px ; */
+  /* min-height: 500px; */
+}
+
+
+.split_header{
+  padding: 10% 10% 0% 10%;
+}
+
+@media (max-width: 210px) {
+  .split_header{
+    padding: 10% 5% 0% 5%;
+  }
+ 
+}
+@media (max-width: 767px) {
+  .split {
+    width: 100%;
+  }
+ 
+}
+
+@media (max-width: 992px) {
+  .split {
+    width: 100%;
+  }
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+.txt-circ{
+ font-family: CircularStd-Regular
+}
+
+.txt-futur{
+  font-family: Futur-Regular
+}
+
+.social_icon a:hover {
+  color: #DB9A02;
+}
+
+.social_icon img {
+  height: 15px;
+}
+
+.social_icon {
+  margin: 50px;
 }

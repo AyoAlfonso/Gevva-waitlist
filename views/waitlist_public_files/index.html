@@ -1,121 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <!-- Title Page-->
-    <title>Au Register Forms by Colorlib</title>
-
-    <!-- Icons font CSS-->
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <!-- Font special for pages-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-
-    <!-- Vendor CSS-->
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="css/main.css" rel="stylesheet" media="all">
-</head>
-
-<body>
-        <div class="container">
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#waitlistModal">Open Modal</button>
- 
- 
-
-    <div id="waitlistModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-        
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-     <div class="page-wrapper bg-red p-t-180 p-b-100 font-robo">
-        <div class="wrapper wrapper--w960">
-            <div class="card card-2">
-                <div class="card-heading"></div>
-                <div class="card-body">
-                    <h2 class="title">Registration Info</h2>
-                    <form method="POST">
-                        <div class="input-group">
-                            <input class="input--style-2" type="text" placeholder="Name" name="name">
+   <head>
+      <!-- Required meta tags-->
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <!-- Title Page-->
+      <title>Au Register Forms by Colorlib</title>
+      <!-- Icons font CSS-->
+      <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+      <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+      <!-- Font special for pages-->
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+      <!-- Vendor CSS-->
+      <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+      <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+      <!-- Main CSS-->
+      <link href="css/main.css" rel="stylesheet" media="all">
+   </head>
+   <body>
+      <div class="container">
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinWaitlistModal">Join Modal</button>
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinedWaitlistModal">Joined Modal</button>
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkStatusWaitlistModal">Check Status Modal</button>
+         <div class="modal fade" id="joinWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split left hidden-xs hidden-sm" style="height: 480px;">
+                        <img src="/images/two-girls.jpg" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split right">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Join our waitlist to find out when we launch!
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">        
+                              We've created Gevva to help you plan, discover and book great experiences &amp; activities
+                              for your different groups of friends. 
+                              Sign up to join the waitlist and be one of the first people to use it when we launch 
+                           </div>
+                           <div style="
+                              text-align: left;
+                              margin: 5% 10%;
+                              ">
+                              <label class="txt-circ" style="color: #808080b3;font-size: 10px;margin-top: 15px;">full name  </label>
+                              <input type="text" required="" style="
+                                 border-bottom: solid 1px;
+                                 color: #808080fc;
+                                 ">
+                              <label class="txt-circ"  style="color: #808080b3;font-size: 10px;margin-top: 15px;">email address </label>
+                              <input type="text" required="" style="
+                                 border-bottom: solid 1px;
+                                 color: #808080fc;
+                                 ">
+                           </div>
+                           <div class="text-left m-t-3" style="
+                              margin: 10%;
+                              ">
+                              <button class="rounded" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;">
+                              submit
+                              </button>
+                           </div>
                         </div>
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <input class="input--style-2 js-datepicker" type="text" placeholder="Birthdate" name="birthday">
-                                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="gender">
-                                            <option disabled="disabled" selected="selected">Gender</option>
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="class">
-                                    <option disabled="disabled" selected="selected">Class</option>
-                                    <option>Class 1</option>
-                                    <option>Class 2</option>
-                                    <option>Class 3</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
-                        </div>
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <input class="input--style-2" type="text" placeholder="Registration Code" name="res_code">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-t-30">
-                            <button class="btn btn--radius btn--green" type="submit">Search</button>
-                        </div>
-                    </form>
-                </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-          
+         </div>
+         <div class="modal fade" id="joinedWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split left hidden-xs hidden-sm">
+                        <img src="/images/joined_waitlist.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split right" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="font-size: 23px; font-weight: bold;">
+                              Perfect, you’re on the waitlist
+                           </div>
+                           <div class="mx-auto txt-circ" style="font-size: 10px; padding: 20px 10% 10% 10%;color: #808080b3;word-spacing: 5px;">      
+                              We will be releasing access to use Gevva in batches of 100 people at a time.
+                              To get ahead in the que &amp; be one of the first people to use Gevva
+                              invite a few friends to join the waitlist too.
+                           </div>
+                           <div class="text-center">
+                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              copy link
+                              </button>
+                           </div>
+                           <div class="social_icon">
+                              <img src="./images/icons/twitter.svg" alt="twitter icon">
+                              <img src="./images/icons/whatsapp.svg" alt="whatsapp icon">
+                              <img src="./images/icons/gmail.svg" alt="gmail icon">
+                           </div>
+                           <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
+                              You're currently number  <span id="userPosition" style="
+                                 font-size: 18px;
+                                 font-weight: bold;
+                                 color: black;
+                                 " > #0 </span>
+                           </div>
+                           <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
+                              invite at least 3 friends to jump to the front of the queue
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-</div>
-
-    <!-- Jquery JS-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <!-- Vendor JS-->
-    <script src="vendor/select2/select2.min.js"></script>
-    <script src="vendor/datepicker/moment.min.js"></script>
-    <script src="vendor/datepicker/daterangepicker.js"></script>
-
-    <!-- Main JS-->
-    <script src="js/global.js"></script>
-
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-
+         </div>
+         <div class="modal fade" id="checkStatusWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split left hidden-xs hidden-sm">
+                        <img src="/images/joined_waitlist.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split right" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Perfect, you’re on the waitlist
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">       
+                              You are moving up in the world. Keep inviting friends to join the Gevva experience. 
+                              We have prices for the top 10 and top 100 people on the waitlist.
+                           </div>
+                           <div class="text-center">
+                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              copy link
+                              </button>
+                           </div>
+                           <div class="social_icon">
+                              <img src="./images/icons/twitter.svg" alt="twitter icon">
+                              <img src="./images/icons/whatsapp.svg" alt="whatsapp icon">
+                              <img src="./images/icons/gmail.svg" alt="gmail icon">
+                           </div>
+                           <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
+                              You're currently number  <span id="userPosition" style="
+                                 font-size: 18px;
+                                 font-weight: bold;
+                                 color: black;
+                                 " > #0 </span>
+                           </div>
+                           <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
+                              You have invited  <span id="userPosition" style="
+                                 font-size: 18px;
+                                 font-weight: bold;
+                                 color: black;
+                                 " > #4 </span>
+                              friends
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal fade" id="emailNewWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split hidden-xs hidden-sm">
+                        <img src="/images/joined_waitlist_email.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Congratulations! You’ve joined our waitlist
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">       
+                              Welcome to the club! Organising a get together will soon be your superpower.
+                              We can’t wait to get going and have people all over the world using Gevva.
+                              Now that you’re on the waitlist, you can move up by sharing Gevva with your friends.
+                           </div>
+                           <div class="text-center">
+                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              invite friends
+                              </button>
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 8px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              "> 
+                              Copyright © 2019 Gevva All rights reserved. 
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal fade" id="emailInviteWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split hidden-xs hidden-sm">
+                        <img src="/images/being_referred.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Awesome, you’ve been referred!
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">       
+                              [Refferer name] has invited you to join Gevva. Gevva helps you discover, 
+                              book & plan get togethers for groups. We will be releasing access to use Gevva in batches of 
+                              100 people at a time. To get ahead in the que & be one of the first people to use Gevva 
+                              invite a few friends to join the waitlist too.
+                           </div>
+                           <div class="text-center">
+                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              invite friends
+                              </button>
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 8px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              "> 
+                              Copyright © 2019 Gevva All rights reserved. 
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal fade" id="emailInviteWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split hidden-xs hidden-sm">
+                        <img src="/images/being_referred.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Refer a friend and move up the ranks!
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">       
+                              Hey [First name], don’t keep this to yourself. 
+                              Tell a friend about Gevva and move up the que. 
+                              Refer 2 people and yo will move up [XXX] pleaces in the queue.
+                           </div>
+                           <div class="text-center">
+                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              invite friends
+                              </button>
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 8px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              "> 
+                              Copyright © 2019 Gevva All rights reserved. 
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Jquery JS-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <!-- Vendor JS-->
+      <script src="vendor/select2/select2.min.js"></script>
+      <script src="vendor/datepicker/moment.min.js"></script>
+      <script src="vendor/datepicker/daterangepicker.js"></script>
+      <!-- Main JS-->
+      <script src="js/global.js"></script>
+   </body>
+   <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
 <!-- end document-->
