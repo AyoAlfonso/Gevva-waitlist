@@ -30,7 +30,7 @@ app.use('*', function (req, res, next) {
 
 app.use(express.static('public'))
 
-app.use(session({
+  app.use(require('cookie-session')({
   secret: 'my cats name again',
   resave: false,
   saveUninitialized: false,
