@@ -80,8 +80,59 @@
                </div>
             </div>
          </div>
+
+         <div class="modal fade" id="checkPositionModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split left hidden-xs hidden-sm">
+                        <img src="/images/two-girls.jpg" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split right" style="height: 500px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Check your position on our waitlist
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">        
+                              We've created rewards for you as long as you just share the link with friends and family! 
+                           </div>
+                           <div style="
+                              text-align: left;
+                              margin: 5% 10%;
+                              ">
+                              
+                              <label class="txt-circ"  style="color: #808080b3;font-size: 10px;margin-top: 15px;">email address </label>
+                              <input type="text" id="checkEmail" required="" style="
+                                 border-bottom: solid 1px;
+                                 color: #808080fc;
+                                 ">
+                           </div>
+                           <div class="text-left m-t-3" style="
+                              margin: 10%;
+                              ">
+                              <button onclick="onCheckSubmit" class="rounded" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;">
+                              submit
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
          
-         <div class="modal fade" id="joinedWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+<!-- /* Comes up after email signup*/ -->
+       <div class="modal fade" id="joinedWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                <div class="modal-content-2">
                   <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
@@ -100,21 +151,30 @@
                               invite a few friends to join the waitlist too.
                            </div>
                            <div class="text-center">
-                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              <button onclick="copyRefCode" id="demosharelink" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
                               copy link
                               </button>
                            </div>
                            <div class="social_icon">
-                              <img src="./images/icons/twitter.svg" alt="twitter icon">
-                              <img src="./images/icons/whatsapp.svg" alt="whatsapp icon">
-                              <img src="./images/icons/gmail.svg" alt="gmail icon">
+                                 <span id="demotwitterlink">
+                                    <!-- <img src="./images/icons/twitter.svg" alt="twitter icon"> -->
+                                 </span>   
+
+                                 <span id="whatsapplink">
+                                    <!-- <img src="./images/icons/whatsapp.svg" alt="whatsapp icon"> -->
+                                 </span>
+
+                                 <span id="mailtolink">
+                                    <!-- <img src="./images/icons/gmail.svg" alt="gmail icon"> -->
+                                 </span>
                            </div>
+
                            <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
-                              You're currently number  <span id="userPosition" style="
+                              You're currently number  # <span id="demopositionnumber" style="
                                  font-size: 18px;
                                  font-weight: bold;
                                  color: black;
-                                 " > #0 </span>
+                                 " > 0 </span>
                            </div>
                            <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
                               invite at least 3 friends to jump to the front of the queue
@@ -125,6 +185,8 @@
                </div>
             </div>
          </div>
+
+      <!-- /* Comes up after user manuallu checks his position*/ -->
          <div class="modal fade" id="checkStatusWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                <div class="modal-content-2">
@@ -151,7 +213,7 @@
                               We have prices for the top 10 and top 100 people on the waitlist.
                            </div>
                            <div class="text-center">
-                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              <button  onclick="copyRefCode" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
                               copy link
                               </button>
                            </div>
@@ -181,6 +243,8 @@
                </div>
             </div>
          </div>
+
+
          <div class="modal fade" id="emailNewWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                <div class="modal-content-2">
@@ -226,6 +290,8 @@
                </div>
             </div>
          </div>
+
+         <!-- /**email**/  -->
          <div class="modal fade" id="emailInviteWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                <div class="modal-content-2">
@@ -254,7 +320,7 @@
                               invite a few friends to join the waitlist too.
                            </div>
                            <div class="text-center">
-                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                              <button  onclick="copyRefCode" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
                               invite friends
                               </button>
                            </div>

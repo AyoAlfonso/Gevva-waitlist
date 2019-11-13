@@ -11,8 +11,14 @@
             return (undefined);
         }
 
-        function myFunction() {
+        function copyRefCode() {
             document.getElementById("demosharelink").select(), document.execCommand("Copy")
+            swal({
+                title: "Sucess",
+                text: "Invitation Code copied",
+                timer: 5000,
+                toast: true,
+              });
         }
 
         function onRequestSubmit() {
@@ -59,29 +65,26 @@
                             let positionNumber = json.user.position
                             let referralCount = json.user.referral_count
 
-                            let facebooklink =
-                                `<a target="_blank" class="sb-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="facebook" href=https://www.facebook.com/dialog/feed?app_id=660780480720000&display=popup&t=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now&link=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&redirect_uri=https%3A%2F%2Fwww.waitlisted.co%2Fsocial%2Ffb" ><i class="fa fa-facebook"></i> </a>`
                             let twitterlink =
-                                `<a target="_blank" class="sb-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter" href=http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <i class="fa fa-twitter"></i> </a>`
-                            let redditlink =
-                                `<a target="_blank" class="sb-reddit" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reddit" href=https://www.reddit.com/submit?url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&title=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now><i class="fa fa-reddit"></i> </a>`
+                                `<a target="_blank" data-toggle="tooltip" href="http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}" >
+                                <img src="./images/icons/twitter.svg" alt="twitter icon">
+                                </a>`
+
                             let whatsapplink =
-                                `<a target="_blank" class="sb-wechat" data-toggle="tooltip" data-placement="top" title="" data-original-title="Whatsapp" href=https://api.whatsapp.com/send?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%20https://www.gevva.co/?invite=${userReferralCode}><i class="fa fa-whatsapp"></i> </a>`
-                            let linkedinlink =
-                                `<a target="_blank" class="sb-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="LinkedIN" href=https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&title=Gevva&summary=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now&source=LinkedIn><i class="fa fa-linkedin"></i> </a>`
+                                `<a target="_blank" href=https://api.whatsapp.com/send?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%20https://www.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/whatsapp.svg" alt="whatsapp icon"> </a>`
+                            
                             let mailtolink =
-                                `<a target="_blank" class="sb-email" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}><i class="fa fa-envelope"></i> </a><br>`
+                                `<a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/gmail.svg" alt="gmail icon"> </a><br>`
                             document.getElementById("demopositionnumber").innerHTML = positionNumber
                             document.getElementById("demoreferralnumber").innerHTML = referralCount
-                            document.getElementById("demofacebooklink").innerHTML = facebooklink
                             document.getElementById("demotwitterlink").innerHTML = twitterlink
-                            document.getElementById("demoredditlink").innerHTML = redditlink
                             document.getElementById("demowhatsapplink").innerHTML = whatsapplink
-                            document.getElementById("demolinkedinlink").innerHTML = linkedinlink
                             document.getElementById("demomailto").innerHTML = mailtolink
+
                             document.getElementById("demosharelink").value =
                                 `Gevva.co/?invite=${userReferralCode}`
-                            $('#successmodal').modal('show')
+                                
+                            $('#joinedWaitlistModal').modal('show')
                         }
                     },
                     error: function (jqXHR, textStatus, err) {
@@ -155,18 +158,17 @@
                             let numberposition = json.user.position
                             let referralposition = json.user.referral_count
 
-                            let facebooklink =
-                                `<a target="_blank" class="sb-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="facebook" href=https://www.facebook.com/dialog/feed?app_id=660780480720000&display=popup&t=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now&link=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&redirect_uri=https%3A%2F%2Fwww.waitlisted.co%2Fsocial%2Ffb" ><i class="fa fa-facebook"></i> </a>`
+
                             let twitterlink =
-                                `<a target="_blank" class="sb-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter" href=http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <i class="fa fa-twitter"></i> </a>`
-                            let redditlink =
-                                `<a target="_blank" class="sb-reddit" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reddit" href=https://www.reddit.com/submit?url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&title=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now><i class="fa fa-reddit"></i> </a>`
+                                `<a target="_blank" data-toggle="tooltip" href="http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}" >
+                                <img src="./images/icons/twitter.svg" alt="twitter icon">
+                                </a>`
+
                             let whatsapplink =
-                                `<a target="_blank" class="sb-wechat" data-toggle="tooltip" data-placement="top" title="" data-original-title="Whatsapp" href=https://api.whatsapp.com/send?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%20https://www.gevva.co/?invite=${userReferralCode}><i class="fa fa-whatsapp"></i> </a>`
-                            let linkedinlink =
-                                `<a target="_blank" class="sb-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="LinkedIN" href=https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}&title=Gevva&summary=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now&source=LinkedIn><i class="fa fa-linkedin"></i> </a>`
+                                `<a target="_blank" href=https://api.whatsapp.com/send?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%20https://www.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/whatsapp.svg" alt="whatsapp icon"> </a>`
+                            
                             let mailtolink =
-                                `<a target="_blank" class="sb-email" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}><i class="fa fa-envelope"></i> </a><br>`
+                                `<a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/gmail.svg" alt="gmail icon"> </a><br>`
 
                             document.getElementById("demofacebooklink2").innerHTML = facebooklink
                             document.getElementById("demotwitterlink2").innerHTML = twitterlink
@@ -176,9 +178,10 @@
                             document.getElementById("demomailto2").innerHTML = mailtolink
                             document.getElementById("demosharelink2").value =
                                 `Gevva.co/?invite=${userReferralCode}`
+
                             document.getElementById("demopositionnumber2").innerHTML = numberposition
                             document.getElementById("demoreferralnumber2").innerHTML = referralposition
-                            $('#positionmodal').modal('show')
+                            $('#checkStatusWaitlistModal').modal('show')
                         }
                     },
                     error: function (jqXHR, textStatus, err) {
