@@ -22,6 +22,7 @@
         }
 
         function onRequestSubmit() {
+            
             let g = getRefcode('r')
             let e = document.getElementById("senderName").value || document.getElementById("senderName2").value;
             let t = document.getElementById("senderEmail").value || document.getElementById("senderEmail2").value;
@@ -31,7 +32,7 @@
               
                 $.ajax({
                     type: "POST",
-                    url: url + 'newmail',
+                    url: url + 'newemail',
                     data: {
                         email: t,
                         name: e,
@@ -126,7 +127,7 @@
             if (Email == true) {
                 $.ajax({
                     type: "POST",
-                    url: "/getuserbyemail",
+                    url: url + "getuserbyemail",
                     data: {
                         email: y
                     },
