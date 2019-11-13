@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/mytoddlr/nannyfix-landing-page#readme",
   "engines": {
-    "node": "7.10.1"
+    "node": "8.15.0"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.2.1",
