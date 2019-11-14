@@ -269,7 +269,7 @@ router.post('/api/v1/getuserbyemail', async function(req, res) {
     var email = req.body.email;
     let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(email)) {
-        return res.status(400).json({
+        return res.status(200).json({
             message: 'Email address is not valid!',
             code: 400
         })
@@ -277,7 +277,7 @@ router.post('/api/v1/getuserbyemail', async function(req, res) {
         try {
             let user = await connection.query('SELECT name, referral_code, referral_count, referred_by, email, verified, invite FROM subscribers WHERE `email`=(?)', [email])
             if (user.length == 0) {
-                return res.status(400).json({
+                return res.status(200).json({
                     message: `This email doesn't exists yet. Sign up!`,
                     code: 400
                 })
@@ -593,9 +593,9 @@ router.post('/invite', async function(req, res) {
             await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
             let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
             if (result.affectedRows == 0) {
-                return res.status(400).json({
+                return res.status(200).json({
                     message: `This user doesnt exist!`,
-                    code: 404
+                    code: 400
                 })
             }
             if (result.affectedRows > 0) {
@@ -637,7 +637,7 @@ router.post('/reinvite', async function(req, res) {
             let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
 
             if (result.affectedRows == 0) {
-                return res.status(400).json({
+                return res.status(200).json({
                     message: `This user doesnt exist!`,
                     code: 404
                 })
@@ -749,7 +749,7 @@ router.post('/massinvite', authController.isLoggedIn, async function(req, res) {
             })
         }
     } else {
-        return res.status(401).json({
+        return res.status(200).json({
             message: `The provided numbers are not numbers`,
             code: 400
         })
@@ -801,13 +801,13 @@ router.post('/mass-invite-new-email', authController.isLoggedIn, async function(
                 })
             }
         } else {
-            return res.status(400).json({
+            return res.status(200).json({
                 message: `A correct range wasn't provided`,
                 code: 400
             })
         }
     } else {
-        return res.status(401).json({
+        return res.status(200).json({
             message: `The provided numbers are not numbers`,
             code: 400
         })

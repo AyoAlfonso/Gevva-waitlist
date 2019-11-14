@@ -159,15 +159,6 @@
               
                         if (json.code == 400 && json.code == 500) {
                             $('#errorMsg_a').html(json.message);
-                            return swal({
-                                title: 'This is not valid!',
-                                text: json.message,
-                                imageUrl: 'images/error.png',
-                                imageWidth: 120,
-                                imageHeight: 120,
-                                animation: false
-                            });
-                            return false
                         }
                         if (json.code == 404) {
                             $('#errorMsg_a').html(json.message);
@@ -213,7 +204,6 @@
                     },
                     error: function (jqXHR, textStatus, err) {
                         if (err) {
-                            console.log(err)
                             $('#errorMsg_a').html(err);
                             return false
                         } else {
