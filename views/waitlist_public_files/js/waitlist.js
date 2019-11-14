@@ -1,5 +1,5 @@
 
-        let url = "https://b8139302.ngrok.io/api/v1/"
+        let url = "https://gevva-waitlist.herokuapp.com/api/v1/"
         
         function getRefcode(variable) {
             var query = window.location.search.substring(8);
