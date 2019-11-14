@@ -19,12 +19,13 @@
       <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
       <!-- Main CSS-->
       <link href="css/main.css" rel="stylesheet" media="all">
+      <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
    </head>
    <body>
       <div class="container">
          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinWaitlistModal">Join Modal</button>
          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinedWaitlistModal">Joined Modal</button>
-         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkStatusWaitlistModal">Check Status Modal</button>
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkPositionModal">Check Status Modal</button>
         
          <div class="modal fade" id="joinWaitlistModal" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
@@ -59,17 +60,20 @@
                               <label class="txt-circ" style="color: #808080b3;font-size: 10px;margin-top: 15px;">full name  </label>
                               <input type="text" id="senderName" required="" style="
                                  border-bottom: solid 1px;
-                                 color: #808080fc;
+                                 color: #000;
                                  ">
                               <label class="txt-circ"  style="color: #808080b3;font-size: 10px;margin-top: 15px;">email address </label>
                               <input type="text" id="senderEmail" required="" style="
                                  border-bottom: solid 1px;
-                                 color: #808080fc;
+                                 color: #000;
                                  ">
                            </div>
-                           <div class="text-left m-t-3" style="
-                              margin: 10%;
-                              ">
+                          
+                           <div style=" text-align: left; margin: 5px 10% auto; font-style: italic; font-size: 14px;">
+                              <span style="color:red" id="errorMsg">
+                              </span>
+                           </div>
+                           <div class="text-left m-t-3" style=" margin: 5px 10% auto;">
                               <button onclick="return onRequestSubmit()" class="rounded" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;">
                               submit
                               </button>
@@ -116,12 +120,20 @@
                                  color: #808080fc;
                                  ">
                            </div>
+
+                           <div style=" text-align: left; margin: 5px 10% auto; font-style: italic; font-size: 14px;">
+                                 <span style="color:red" id="errorMsg_a">
+                                 </span>
+                              </div>
                            <div class="text-left m-t-3" style="
                               margin: 10%;
                               ">
-                              <button onclick="onCheckSubmit" class="rounded" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;">
+                              <button onclick="return onCheckSubmit()" class="rounded" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;">
                               submit
                               </button>
+
+                              
+                              
                            </div>
                         </div>
                      </div>
@@ -151,9 +163,9 @@
                               invite a few friends to join the waitlist too.
                            </div>
                            <div class="text-center">
-                              <button onclick="copyRefCode" id="demosharelink" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                              copy link
-                              </button>
+                              <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                    <span  id="copyStatus_a" style="user-select: all;"> copy link </span>
+                                 </button>
                            </div>
                            <div class="social_icon">
                                  <span id="demotwitterlink"> </span>   
@@ -161,14 +173,15 @@
                                  <span id="demowhatsapplink"> </span>
 
                                  <span id="demomailto">  </span>
+                                 <span style="display:none" id="demosharelink"></span>
                            </div>
 
                            <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
-                              You're currently number  # <span id="demopositionnumber" style="
+                              You're currently number  #<span id="demopositionnumber" style="
                                  font-size: 18px;
                                  font-weight: bold;
                                  color: black;
-                                 " > 0 </span>
+                                 " >0</span>
                            </div>
                            <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
                               invite at least 3 friends to jump to the front of the queue
@@ -207,8 +220,9 @@
                               We have prices for the top 10 and top 100 people on the waitlist.
                            </div>
                            <div class="text-center">
-                              <button  onclick="copyRefCode" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                              copy link
+                              <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                   <span  id="copyStatus_b" style="user-select: all"> copy link </span>
+                                
                               </button>
                            </div>
                            <div class="social_icon">
@@ -217,6 +231,8 @@
                                  <span id="demowhatsapplink2"> </span>
 
                                  <span id="demomailto2">  </span>
+                               
+                                 <span style="display:none" id="demosharelink2"></span>
                            </div>
                            <div style="color: #8C8C8C;font-size: 10px;margin: 0px 50px;" class="mx-auto">
                               You're currently number  <span id="demopositionnumber2" style="
@@ -268,8 +284,8 @@
                               Now that you’re on the waitlist, you can move up by sharing Gevva with your friends.
                            </div>
                            <div class="text-center">
-                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                              invite friends
+                              <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                 <a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}>  invite friends </a><br>
                               </button>
                            </div>
                            <div class="mx-auto txt-circ" style="
@@ -316,9 +332,10 @@
                               invite a few friends to join the waitlist too.
                            </div>
                            <div class="text-center">
-                              <button  onclick="copyRefCode" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                              invite friends
-                              </button>
+                              
+                                 <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                       <a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}>  invite friends </a><br>
+                                    </button>
                            </div>
                            <div class="mx-auto txt-circ" style="
                               font-size: 8px;
@@ -361,9 +378,9 @@
                               Refer 2 people and yo will move up [XXX] pleaces in the queue.
                            </div>
                            <div class="text-center">
-                              <button onclick="" class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                              invite friends
-                              </button>
+                                 <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                       <a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}>  invite friends </a><br>
+                                    </button>
                            </div>
                            <div class="mx-auto txt-circ" style="
                               font-size: 8px;
@@ -381,7 +398,7 @@
          </div>
       </div>
       <!-- Jquery JS-->
-      <script src="vendor/jquery/jquery.min.js"></script>
+    
       <script src="sweetalert2/dist/sweetalert2.min.js"></script>
       <script src="js/waitlist.js"></script>
 

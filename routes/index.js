@@ -277,9 +277,9 @@ router.post('/api/v1/getuserbyemail', async function(req, res) {
         try {
             let user = await connection.query('SELECT name, referral_code, referral_count, referred_by, email, verified, invite FROM subscribers WHERE `email`=(?)', [email])
             if (user.length == 0) {
-                return res.status(401).json({
+                return res.status(400).json({
                     message: `This email doesn't exists yet. Sign up!`,
-                    code: 404
+                    code: 400
                 })
             }
 
