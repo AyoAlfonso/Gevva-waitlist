@@ -1,8 +1,8 @@
 
-        let url = "https://gevva-waitlist.herokuapp.com/api/v1/"
+        let url = "https://b8139302.ngrok.io/api/v1/"
         
         function getRefcode(variable) {
-            var query = window.location.search.substring(1);
+            var query = window.location.search.substring(8);
             var vars = query.split("&");
             for (var i = 0; i < vars.length; i++) {
                 var pair = vars[i].split("=");
@@ -10,31 +10,7 @@
             }
             return (undefined);
         }
-    //     $( document ).ready(function() {
-    //         console.log( "ready!" );
 
-    //  spans = document.querySelectorAll(".refcode");
-    //     for (const span of spans) {
-    //         console.log("out!")
-    //         if (span.textContent != "") {
-    //             console.log("in!")
-    //             span.onclick = function() {
-    //                 document.execCommand("copy");
-    //             }
-        
-    //             span.addEventListener("copy", function(event) {
-    //                 event.preventDefault();
-    //                 if (event.clipboardData) {
-    //                 event.clipboardData.setData("text/plain", span.textContent);
-    //                 console.log(event.clipboardData.getData("text"))
-    //                 }
-    //             });
-    //         }
-        
-    //     }
-    //     });
-        
-    
    
 
         $('#copyStatus_b').click(function() {
@@ -42,7 +18,6 @@
             document.getElementById("copyStatus_b").innerHTML = refLink;
             
           });
-
           
         $('#copyStatus_a').click(function() {
            let refLink = document.getElementById("demosharelink").innerHTML
@@ -55,13 +30,26 @@
                 document.getElementById("errorMsg").innerHTML = msg
             }
          
-            let g = getRefcode('r')
-            let e = document.getElementById("senderName").value || document.getElementById("senderName2").value;
-            let t = document.getElementById("senderEmail").value || document.getElementById("senderEmail2").value;
+            
+            let g = getRefcode('invite')
+            console.log(g)
+            let e = document.getElementById("senderName").value ? document.getElementById("senderName").value : null
+            let t = document.getElementById("senderEmail").value ? document.getElementById("senderEmail").value : null ;
             t = $.trim(t);
             let a = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(t);
+           if(!e){
+            console.log(e)
+            errorHandler('Please check the name inputed')
+            return
+           }
+
+           if(!a){
+             errorHandler('Please check the email inputed')
+             return
+             }
             if (e && a == true) {
               
+                console.log(g)
                 $.ajax({
                     type: "POST",
                     url: url + 'newemail',
@@ -124,28 +112,28 @@
                     },
                     error: function (jqXHR, textStatus, err) {
                         if (err) {
+                            console.log(err)
                             errorHandler('An error occured')
                             return false
-                        } else {
-                            swal.stopLoading();
-                            swal.close();
                         }
                     }
                 });
             } else {
-                errorHandler('Wrong details')
+                errorHandler('Please check the details inputed')
                 return false
             }
         }
 
         function onCheckSubmit() {
-
+        
             let y = document.getElementById("checkEmail").value;
             y = $.trim(y)
             let Email =
                 /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
                     .test(y)
+   
             if (Email == true) {
+                console.log(url + "getuserbyemail")
                 $.ajax({
                     type: "POST",
                     url: url + "getuserbyemail",
@@ -153,10 +141,12 @@
                         email: y
                     },
                     beforeSend: function() {
+                        console.log('fdfdf')
                         $('#errorMsg_a').html("<div style='height:50px'> <img style='height:50px' src='/images/loading-giph.gif' /> </div>");
                       },
                     success: function (json) {
-              
+                       
+                        $('#errorMsg').html("");
                         if (json.code == 400 ||  500) {
                             $('#errorMsg_a').html(json.message);
                         }
@@ -164,6 +154,7 @@
                             $('#errorMsg_a').html(json.message);
                         }
                         if (json.code == 200) {
+                          
                             $('#errorMsg_a').html("");
 
                             let userReferralCode = json.user.referral_code
@@ -183,37 +174,28 @@
                             document.getElementById("demotwitterlink2").innerHTML = twitterlink
                             // document.getElementById("demoredditlink2").innerHTML = redditlink
                             document.getElementById("demowhatsapplink2").innerHTML = whatsapplink
-                            document.getElementById("demolinkedinlink2").innerHTML = linkedinlink
+                            // document.getElementById("demolinkedinlink2").innerHTML = linkedinlink
                             document.getElementById("demomailto2").innerHTML = mailtolink
                             document.getElementById("demosharelink2").innerHTML =
                                 `Gevva.co/?invite=${userReferralCode}`
 
                             document.getElementById("demopositionnumber2").innerHTML = numberposition
                             document.getElementById("demoreferralnumber2").innerHTML = referralposition
+                            $('#checkPositionModal').modal('toggle')
                             $('#checkStatusWaitlistModal').modal('show')
                         }
                     },
-                    error: function (jqXHR, textStatus, err) {
+                    error: function (err) {
+                        
                         if (err) {
                             $('#errorMsg_a').html(err);
+                            console.log(err)
                             return false
-                        } else {
-                            swal.stopLoading();
-                            swal.close();
                         }
                     }
                 })
             } else {
-              
                 $('#errorMsg_a').html("Please input a valid email");
-                swal({
-                    title: 'Wrong details',
-                    text: 'Please check your email',
-                    imageUrl: 'images/error.png',
-                    imageWidth: 120,
-                    imageHeight: 120,
-                    animation: false
-                });
-                return false
+                
             }
         }

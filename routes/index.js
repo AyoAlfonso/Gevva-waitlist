@@ -113,7 +113,7 @@ router.get('/verify', async function(req, res) {
     if (refcode) {
         let user = await connection.query('SELECT email, name, referral_count, referral_code, referred_by, verified FROM subscribers WHERE `referral_code`=(?)', [refcode])
         let newUser = await connection.query(
-            'SELECT * FROM (  SELECT email, referral_count, referral_code, @rownum:=@rownum + 1 as row_number FROM subscribers t1,' +
+            'SELECT * FROM (  SELECT email, referral_count, referral_code, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
             '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `referral_code`=(?)', [refcode])
         if (user.length !== 0) {
             let referredBy = user[0].referred_by;
@@ -121,7 +121,7 @@ router.get('/verify', async function(req, res) {
             let newUserName = user[0].name
             let newUserEmail = user[0].email
             let newUserReferralCode = user[0].referral_code
-            let newUserCurrentPosition = newUser[0].row_number
+            let newUserCurrentPosition = newUser[0].position
             let newUserReferralCount = user[0].referral_count
             if (verified === "false") {
                 try {
@@ -266,6 +266,7 @@ router.get('/api/v1/countverified/', async function(req, res) {
 })
 
 router.post('/api/v1/getuserbyemail', async function(req, res) {
+    console.log('ff')
     var email = req.body.email;
     let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(email)) {
@@ -284,11 +285,11 @@ router.post('/api/v1/getuserbyemail', async function(req, res) {
             }
 
             let currentUser = await connection.query(
-                'SELECT * FROM (  SELECT email, referral_count, referral_code, @rownum:=@rownum + 1 as row_number FROM subscribers t1,' +
+                'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
                 '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `email`=(?)', [email])
 
             if (currentUser.length !== 0) {
-                user[0].position = currentUser[0].row_number
+                user[0].position = currentUser[0].position
 
                 let result = {
                     name: user[0].name,
@@ -308,7 +309,7 @@ router.post('/api/v1/getuserbyemail', async function(req, res) {
             }
 
         } catch (error) {
-            return res.status(500).json({
+            return res.status(200).json({
                 message: `An error occured and user couldnt be retrieved ${error.message}`,
                 code: 500
             })
