@@ -157,20 +157,11 @@
                       },
                     success: function (json) {
               
-                        if (json.code == 400 && json.code == 500) {
+                        if (json.code == 400 ||  500) {
                             $('#errorMsg_a').html(json.message);
                         }
                         if (json.code == 404) {
                             $('#errorMsg_a').html(json.message);
-                            return swal({
-                                title: 'Try and sign up!',
-                                text: 'Your email doesnt exist on our waiting list',
-                                imageUrl: 'images/error.png',
-                                imageWidth: 120,
-                                imageHeight: 120,
-                                animation: false
-                            });
-                            return false
                         }
                         if (json.code == 200) {
                             $('#errorMsg_a').html("");

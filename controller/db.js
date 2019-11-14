@@ -11,7 +11,8 @@ var pool = mysql.createPool({
   user:
     process.env.WAITLIST_DB_USERNAME || process.env.WAITLIST_LIVE_DB_USERNAME,
   password: process.env.WAITLIST_DB_PASS || process.env.WAITLIST_LIVE_DB_PASS,
-  database: process.env.WAITLIST_DB_NAME || process.env.WAITLIST_LIVE_DB_NAME
+  database: process.env.WAITLIST_DB_NAME || process.env.WAITLIST_LIVE_DB_NAME,
+  multipleStatements: true
 });
 
 pool.getConnection((err, connection) => {
