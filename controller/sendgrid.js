@@ -9,24 +9,24 @@ module.exports = {
     sendWelcomeEmail: async function(subscriberEmail, subscriberName, newUserReferralCode, newUserCurrentPosition, newUserReferralCount) {
 
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
 
         let msg = {
             reply_to: senderEmail,
             to: subscriberEmail,
             from: senderEmail,
-            subject: `Welcome to NannyFix`,
-            templateId: '12b7ec45-c144-4885-b7f3-25cf730d0e64',
+            subject: `Welcome to Gevva`,
+            templateId: 'f2845a5a-c8cc-4c78-a8aa-d0e41c7ec69d',
             substitutions: {
                 name: subscriberName,
-                userReferralCodeLink: `${MAIN_URL}/invite/${newUserReferralCode}`,
+                userReferralCodeLink: `${MAIN_URL}?invite=${newUserReferralCode}`,
                 userPosition: newUserCurrentPosition,
                 userReferredCount: newUserReferralCount,
                 userVerificationCodeLink: `${MAIN_URL}/verify/${newUserReferralCode}`,
                 userReferralCode: newUserReferralCode,
-                trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/12b7ec45-c144-4885-b7f3-25cf730d0e64`
+                // trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/12b7ec45-c144-4885-b7f3-25cf730d0e64`
             }
         };
 
@@ -34,6 +34,38 @@ module.exports = {
             await sgMail.send(msg)
             await connection.query('INSERT INTO activities (email, referral_code, activity) VALUES (?, ?, ?)', [subscriberEmail, newUserReferralCode, msg.templateId])
             console.log("Succesfully sent email to " + subscriberName)
+        } catch (error) {
+            console.error(error.message)
+        }
+    },
+
+    sendInvitationUsedEmail: async function({newUserName, newUserEmail, newUserReferralCode, newUserReferralCount,newUserCurrentPosition}) {
+        
+        let senderEmail = {
+            "email": "help@gevva.co",
+            "name": "Gevva"
+        }
+
+        let msg = {
+            reply_to: senderEmail,
+            to: newUserEmail,
+            from: senderEmail,
+            subject: `You're moving up the ranks!`,
+            templateId: '853bad28-416e-4bd8-9199-d3094fb09694',
+            substitutions: {
+                name: newUserName,
+                userReferralCodeLink: `${MAIN_URL}?invite=${newUserReferralCode}`,
+                userPosition: newUserCurrentPosition,
+                userReferredCount: newUserReferralCount,
+                userReferralCode: newUserReferralCode,
+                // trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/31f51ddf-bac8-43d4-bdce-d9f3673980f7`
+            }
+        };
+
+        try {
+            await sgMail.send(msg)
+            await connection.query('INSERT INTO activities (email, referral_code, activity) VALUES (?, ?, ?)', [subscriberEmail, ReferralCode, msg.templateId])
+            console.log("Succesfully sent email to " + newUserName )
         } catch (error) {
             console.error(error.message)
         }

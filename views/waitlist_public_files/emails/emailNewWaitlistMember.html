@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags-->
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <!-- Title Page-->
+      <title>Au Register Forms by Colorlib</title>
+      <!-- Icons font CSS-->
+      <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+      <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+      <!-- Font special for pages-->
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+      <!-- Main CSS-->
+      <!-- <link href="css/main.css" rel="stylesheet" media="all"> -->
+      <link href="../css/main.css" rel="stylesheet" media="all">
+      <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+   </head>
+   <body>
+      <div class="container">
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinWaitlistModal">Join Modal</button>
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinedWaitlistModal">Joined Modal</button>
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkPositionModal">Check Status Modal</button>
+        
+         <div id="emailInviteWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content-2">
+                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
+                     <div class="split hidden-xs hidden-sm">
+                        <img src="/images/being_referred.png" alt="two woman" class="card-2 card-heading">
+                     </div>
+                     <div class="split" style="height: 447px;">
+                        <div class="txt-circ">
+                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
+                           <div class="mx-auto split_header" style="
+                              font-size: 23px;
+                              font-weight: bold;
+                              ">
+                              Refer a friend and move up the ranks!
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 10px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              ">       
+                              Hey [First name], don’t keep this to yourself. 
+                              Tell a friend about Gevva and move up the que. 
+                              Refer 2 people and yo will move up [XXX] pleaces in the queue.
+                           </div>
+                           <div class="text-center">
+                                 <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
+                                       <a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}>  invite friends </a><br>
+                                    </button>
+                           </div>
+                           <div class="mx-auto txt-circ" style="
+                              font-size: 8px;
+                              padding: 20px 10% 10% 10%;
+                              color: #808080b3;
+                              word-spacing: 5px;
+                              "> 
+                              Copyright © 2019 Gevva All rights reserved. 
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Jquery JS-->
+    
+      <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+      <script src="js/waitlist.js"></script>
+
+   </body>
+</html>
+<!-- end document-->

@@ -21,20 +21,10 @@ throttledRequest.configure({
 });
 require('dotenv').config();
 
-
 sgMail.setApiKey(Keys.sendgrid.API_KEY);
 let API_URL = Keys.config.API_URL;
 
 let now = moment();
-let S3Config = require('s3-append').S3Config;
-let config = new S3Config({
-    "accessKeyId": process.env.S3_ACCESS_KEY_ID,
-    "secretAccessKey": process.env.S3_SECRET_ACCESS_KEY,
-    "region": "us-east-2",
-    "bucket": "nannyfix-campaign/nannyfix-campaign-dash"
-});
-
-let S3Append = require('s3-append').S3Append;
 
 module.exports = {
     /** This cron job gets the subcsribers that have spent exactly 4 days on the list and sends them a mail */
@@ -43,7 +33,7 @@ module.exports = {
             cronTime: "02 14 * * *", //06:40 am (morning) every day.  //  02 14 * * *   // */15 * * * * *  
             onTick: async function() {
                 console.log(`We are in the " exactly 4 days" cron job...`)
-                let activityCode = "f7756474-e566-4a05-b41b-99290f4719f3";
+                let activityCode = "bec5b1dc-b660-4bef-bfe9-d9817c3b28bc";
 
                 let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +
                     '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
@@ -71,24 +61,24 @@ module.exports = {
                                 let userReferredCount = user.referral_count
                                 let userEmail = user.email
                                 let userReferralCode = user.referral_code
-
+                                
                                 let senderEmail = {
-                                    "email": "wecare@nannyfix.com",
-                                    "name": "NannyFix"
+                                    "email": "help@gevva.co",
+                                    "name": "Gevva"
                                 }
 
                                 const msg = {
                                     to: userEmail,
                                     from: senderEmail,
-                                    subject: `Much more`,
+                                    subject: `Keep it up!`,
                                     templateId: activityCode,
                                     substitutions: {
                                         name: userName,
-                                        userReferralCodeLink: `nannyfix.com/invite/${userReferralCode}`,
+                                        userReferralCodeLink: `gevva.co?invite=${userReferralCode}`,
                                         userPosition: userPosition,
                                         userReferredCount: userReferredCount,
                                         userReferralCode: userReferralCode,
-                                        trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${userReferralCode}/${activityCode}`
+                                        // trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${userReferralCode}/${activityCode}`
                                     }
                                 }
 
@@ -118,7 +108,7 @@ module.exports = {
         var job_a = new CronJob({
             cronTime: "10 14 * * *", //06:45 am (morning) every day in  America //10 14 * * *  //*/15 * * * * * 
             onTick: async function() {
-                console.log(`We are in the "least 10 days o" dripJob2 cron job...`)
+                console.log(`We are in the "least 10 days" dripJob2 cron job...`)
                 let activityCode = "0192ea2f-680b-4641-b1c1-5975f7c9337f";
                 
                 let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +

@@ -49,7 +49,7 @@ cron.dripJob5();
 
 // cron.dripJobAfter14Days();
 // cron.dripJobAfter18Days();
-// cron.dripJob1();
+cron.dripJob1();
 // cron.dripJob2();
 // cron.dripJob3();
 

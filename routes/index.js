@@ -64,15 +64,24 @@ router.post('/api/v1/newemail', async function(req, res) {
 
         try {
             let referralCode = shortid.generate().toLowerCase()
-            let user = await connection.query('SELECT email FROM subscribers WHERE `referral_code`=(?)', [refcode])
+            let user = await connection.query('SELECT * FROM subscribers WHERE `referral_code`=(?)', [refcode])
             if (user.length !== 0) {
                 let referred_by = user[0].email
                 let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, referred_by) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, referred_by])
                 await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [refcode])
+                
+                     
+            await sendgridController.sendInvitationUsedEmail({
+                newUserName: user[0].name,
+                newUserEmail: user[0].email,
+                newUserReferralCode: user[0].referral_code,
+                newUserReferralCount: user[0].referral_count,
+                newUserCurrentPosition:  newUser[0].position
+            })
             } else if (user.length == 0) {
                 let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, plan) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, plan])
             }
-
+            
             let newUser = await connection.query(
                 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
                 '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `referral_code`=(?)', [referralCode])
@@ -82,13 +91,6 @@ router.post('/api/v1/newemail', async function(req, res) {
             let newUserReferralCount = newUser[0].referral_count
 
             await sendgridController.sendWelcomeEmail(subscriberEmail, subscriberName, newUserReferralCode, newUserCurrentPosition, newUserReferralCount)
-            await sendgridController.sendVerificationEmail({
-                newUserName: subscriberName,
-                newUserEmail: subscriberEmail,
-                newUserReferralCode: newUserReferralCode,
-                newUserReferralCount: newUserReferralCount,
-                newUserCurrentPosition: newUserCurrentPosition
-            })
 
             return res.status(200).json({
                 user: newUser[0],
@@ -591,7 +593,7 @@ router.post('/invite', async function(req, res) {
     if (invitationStatus == "notInvited") {
         try {
             let mailSubject = `Your Golden Ticket Is Here`
-            await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
+            // await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
             let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
             if (result.affectedRows == 0) {
                 return res.status(200).json({
@@ -634,7 +636,7 @@ router.post('/reinvite', async function(req, res) {
     if (invitationStatus == "invited") {
         try {
             let mailSubject = "Missed Your Golden Ticket?"
-            await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
+            // await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
             let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
 
             if (result.affectedRows == 0) {
@@ -730,7 +732,7 @@ router.post('/massinvite', authController.isLoggedIn, async function(req, res) {
             try {
                 let mailSubject = `Your NannyFix Account is ready`
                 for (let i = 0; i < uninvitedUsers.length; i++) {
-                    await sendgridController.sendInviteEmail(uninvitedUsers[i].email, uninvitedUsers[i].name, uninvitedUsers[i].referral_code, mailSubject)
+                    // await sendgridController.sendInviteEmail(uninvitedUsers[i].email, uninvitedUsers[i].name, uninvitedUsers[i].referral_code, mailSubject)
                     await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [uninvitedUsers[i].referral_code])
                 }
                 return res.status(200).json({
@@ -782,13 +784,13 @@ router.post('/mass-invite-new-email', authController.isLoggedIn, async function(
                 let mailSubject = `New mail from Nannyfix`
                 let activityCode = `1ac0fb71-0b97-4e4e-a35e-5cadb737acce-Invite-UnSent`
                 for (let i = 0; i < uninvitedUsers.length; i++) {
-                    await sendgridController.sendInviteEmailV2({
-                        subscriberEmail: uninvitedUsers[i].email,
-                        subscriberName: uninvitedUsers[i].name,
-                        ReferralCode: uninvitedUsers[i].referral_code,
-                        subject: mailSubject,
-                        trackingCode: activityCode
-                    })
+                    // await sendgridController.sendInviteEmailV2({
+                    //     subscriberEmail: uninvitedUsers[i].email,
+                    //     subscriberName: uninvitedUsers[i].name,
+                    //     ReferralCode: uninvitedUsers[i].referral_code,
+                    //     subject: mailSubject,
+                    //     trackingCode: activityCode
+                    // })
                     await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [uninvitedUsers[i].referral_code])
                 }
                 return res.status(200).json({
@@ -868,13 +870,13 @@ router.post('/massreinvite', authController.isLoggedIn, async function(req, res)
                     let mailSubject = `Your NannyFix Account is ready`
                     let activityCode = `29738351-e26d-4c69-8f8c-5047146ae04c-On-Open`
                     for (let i = 0; i < goldenTicketInviteOpened.length; i++) {
-                        await sendgridController.sendReinviteEmail({
-                            subscriberEmail: goldenTicketInviteOpened[i].email,
-                            subscriberName: goldenTicketInviteOpened[i].name,
-                            ReferralCode: goldenTicketInviteOpened[i].referral_code,
-                            subject: mailSubject,
-                            trackingCode: activityCode
-                        })
+                        // await sendgridController.sendReinviteEmail({
+                        //     subscriberEmail: goldenTicketInviteOpened[i].email,
+                        //     subscriberName: goldenTicketInviteOpened[i].name,
+                        //     ReferralCode: goldenTicketInviteOpened[i].referral_code,
+                        //     subject: mailSubject,
+                        //     trackingCode: activityCode
+                        // })
                     }
                 }
 
@@ -882,13 +884,13 @@ router.post('/massreinvite', authController.isLoggedIn, async function(req, res)
                     let mailSubject = `Your NannyFix Account is ready`
                     let activityCode = `29738351-e26d-4c69-8f8c-5047146ae04c-On-Unopen`
                     for (let i = 0; i < goldenTicketInviteNotOpened.length; i++) {
-                        await sendgridController.sendReinviteEmail({
-                            subscriberEmail: goldenTicketInviteNotOpened[i].email,
-                            subscriberName: goldenTicketInviteNotOpened[i].name,
-                            ReferralCode: goldenTicketInviteNotOpened[i].referral_code,
-                            subject: mailSubject,
-                            trackingCode: activityCode
-                        })
+                        // await sendgridController.sendReinviteEmail({
+                        //     subscriberEmail: goldenTicketInviteNotOpened[i].email,
+                        //     subscriberName: goldenTicketInviteNotOpened[i].name,
+                        //     ReferralCode: goldenTicketInviteNotOpened[i].referral_code,
+                        //     subject: mailSubject,
+                        //     trackingCode: activityCode
+                        // })
                     }
                 }
                 return res.status(200).json({
