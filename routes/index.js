@@ -76,7 +76,7 @@ router.post('/api/v1/newemail', async function(req, res) {
                 newUserEmail: user[0].email,
                 newUserReferralCode: user[0].referral_code,
                 newUserReferralCount: user[0].referral_count,
-                newUserCurrentPosition:  newUser[0].position
+                newUserCurrentPosition:  user[0].position
             })
             } else if (user.length == 0) {
                 let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, plan) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, plan])

@@ -1,16 +1,15 @@
 
         let url = "https://gevva-waitlist.herokuapp.com/api/v1/"
-        
-        function getRefcode(variable) {
-            var query = window.location.search.substring(8);
-            var vars = query.split("&");
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split("=");
-                if (pair[0] == variable) { return pair[1]; }
-            }
-            return (undefined);
-        }
 
+        function getRefcode(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
    
 
         $('#copyStatus_b').click(function() {
@@ -32,7 +31,6 @@
          
             
             let g = getRefcode('invite')
-            console.log(g)
             let e = document.getElementById("senderName").value ? document.getElementById("senderName").value : null
             let t = document.getElementById("senderEmail").value ? document.getElementById("senderEmail").value : null ;
             t = $.trim(t);

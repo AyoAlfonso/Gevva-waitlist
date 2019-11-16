@@ -74,9 +74,10 @@ module.exports = {
     sendVerificationEmail: async function({newUserName, newUserEmail, newUserReferralCode, newUserReferralCount,newUserCurrentPosition}) {
 
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
+
 
         let msg = {
             reply_to: senderEmail,
@@ -105,11 +106,12 @@ module.exports = {
     },
 
     successfulVerificationEmail: async function(newUserName, newUserEmail, newUserReferralCode, newUserReferralCount, newUserCurrentPosition) {
-
+       
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
+
 
         let msg = {
             reply_to: senderEmail,
@@ -138,8 +140,8 @@ module.exports = {
 
     resendVerificationEmail: async function(subscriberEmail, subscriberName, newUserReferralCode, newUserReferralCount) {
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
 
         let msg = {
@@ -169,9 +171,11 @@ module.exports = {
 
     sendInviteEmail: async function(subscriberEmail, subscriberName, ReferralCode, subject) {
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
+
+
         let toEmail = subscriberEmail
         let msg = {
             reply_to: senderEmail,
@@ -200,9 +204,11 @@ module.exports = {
 
     sendReinviteEmail: async function({subscriberEmail, subscriberName, ReferralCode, subject, trackingCode}) {
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
+
+
         let toEmail = subscriberEmail
         let msg = {
             reply_to: senderEmail,
@@ -230,9 +236,11 @@ module.exports = {
 
     sendInviteEmailV2: async function({subscriberEmail, subscriberName, ReferralCode, subject, trackingCode}) {
         let senderEmail = {
-            "email": "wecare@nannyfix.com",
-            "name": "NannyFix"
+            "email": "help@gevva.co",
+            "name": "Gevva"
         }
+
+
         let toEmail = subscriberEmail
         let msg = {
             reply_to: senderEmail,
