@@ -1,82 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <!-- Required meta tags-->
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-      <!-- Title Page-->
-      <title>Au Register Forms by Colorlib</title>
-      <!-- Icons font CSS-->
-      <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-      <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-      <!-- Font special for pages-->
-      <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+	<!--[if (gte mso 9)|(IE)]>
+	<xml>
+		<o:OfficeDocumentSettings>
+			<o:AllowPNG/>
+			<o:PixelsPerInch>96</o:PixelsPerInch>
+		</o:OfficeDocumentSettings>
+	</xml>
+	<![endif]-->
 
-      <!-- Main CSS-->
-      <!-- <link href="css/main.css" rel="stylesheet" media="all"> -->
-      <link href="../css/main.css" rel="stylesheet" media="all">
-      <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
-   </head>
-   <body>
-      <div class="container">
-         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinWaitlistModal">Join Modal</button>
-         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#joinedWaitlistModal">Joined Modal</button>
-         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkPositionModal">Check Status Modal</button>
-        
-         <div id="emailInviteWaitlistMember" tabindex="-1" role="modal" aria-labelledby="modal-label" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-               <div class="modal-content-2">
-                  <div style=" padding-top: 15px;background-color: #fff;" class="modal-body">
-                     <div class="split hidden-xs hidden-sm">
-                        <img src="/images/being_referred.png" alt="two woman" class="card-2 card-heading">
-                     </div>
-                     <div class="split" style="height: 447px;">
-                        <div class="txt-circ">
-                           <button style="background: none;margin: 5px;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">x</button>
-                           <div class="mx-auto split_header" style="
-                              font-size: 23px;
-                              font-weight: bold;
-                              ">
-                              Refer a friend and move up the ranks!
-                           </div>
-                           <div class="mx-auto txt-circ" style="
-                              font-size: 10px;
-                              padding: 20px 10% 10% 10%;
-                              color: #808080b3;
-                              word-spacing: 5px;
-                              ">       
-                              Hey [First name], don’t keep this to yourself. 
-                              Tell a friend about Gevva and move up the que. 
-                              Refer 2 people and yo will move up [XXX] pleaces in the queue.
-                           </div>
-                           <div class="text-center">
-                                 <button class="rounded" style="color: wine;color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;color: #fff;font-size: 10px;margin: 5%;">
-                                       <a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}>  invite friends </a><br>
-                                    </button>
-                           </div>
-                           <div class="mx-auto txt-circ" style="
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Welcome to Recruit</title>
+
+	<!-- GOOGLE FONTS LINK -->
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:100,300,400,400i,500,600,600i,700,700i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" />
+
+	<style type="text/css">
+		/*------ RESET STYLE ------ */
+		*{-webkit-text-size-adjust:none;-webkit-text-resize:100%;text-resize:100%;}
+		table{border-spacing: 0;border-collapse: collapse !important;}
+		h1, h2, h3, h4, h5, h6{display:block; Margin:0; padding:0;}
+		img, a img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+		body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
+		
+		/*------ CLIENT-SPECIFIC STYLE ------ */
+		@-ms-viewport{width:device-width;}
+		table{mso-table-lspace:0pt; mso-table-rspace:0pt;}
+		p, a, li, td, blockquote{mso-line-height-rule:exactly;}
+		p, a, li, td, body, table, blockquote{-ms-text-size-adjust:100%; -webkit-text-size-adjust:100%;}
+		#outlook a{padding:0;}
+		.ReadMsgBody{width:100%;} .ExternalClass{width:100%;}
+		.ExternalClass,.ExternalClass div,.ExternalClass font,.ExternalClass p,.ExternalClass span,.ExternalClass td,img{line-height:100%;}
+
+		/*------ GOOGLE FONT STYLE ------ */
+		[style*="IBM Plex Sans"] {font-family: 'IBM Plex Sans', sans-serif !important;}
+		[style*="Lora"] {font-family:'Lora', Georgia, Times, serif !important;}
+
+		/*------ GENERAL STYLE ------ */
+		.wrapperTable{width:100%; max-width:620px; Margin:0 auto;}
+
+	</style>
+
+	<style type="text/css">
+		/*------ Media Width 640 ------ */
+		@media screen and (max-width: 640px) {
+			.maxWidth {max-width: 100% !important;}
+			.center {text-align: center !important;}
+			table[class="wrapperTable"]{width:100% !important; }
+			table[class="wrapperPreHeader"] .hide{ display: none !important;}
+			td[class="maxWidth"] { max-width: 100% !important;}
+			div[class="maxWidth"] { max-width: 100% !important;}
+			img[class="maxWidth"] { max-width: 100% !important;}
+		}
+	
+body {
+   font-family: CircularStd-Regular
+}
+  
+	@font-face {
+        font-family: CircularStd-Regular;
+        src: url('https://gevva.co/waitlist/fonts/circularstd/circularstd-regular.ttf');
+      }
+
+	</style>
+
+</head>
+
+<body style="background-color:#F5F5F5;">
+<center>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed; background-color:#F5F5F5;" id="bodyTable">
+	<tr>
+		<td align="center" valign="top" id="bodyCell">
+		<!--[if (gte mso 9)|(IE)]><table align="center" border="0" cellspacing="0" cellpadding="0" style="width:620px;" width="620"><tr><td align="center" valign="top"><![endif]-->
+		
+		<!--Wrapper Table Open //-->
+		<table border="0" cellpadding="0" cellspacing="0" style="max-width:620px;" width="100%" class="wrapperTable">
+			<tr>
+				<td align="center" valign="top" class="wrapperCell">
+
+					<table border="0" cellpadding="0" cellspacing="0" width="100%" class="wrapperPreHeader">
+						<tr>
+							<td align="center" valign="top" style="padding-left:10px;padding-right:10px;">
+
+							</td>
+						</tr>
+					</table>
+
+					<table border="0" cellpadding="0" cellspacing="0" width="100%" class="wrapperHeader">
+
+					</table>
+
+					<table border="0" cellpadding="0" cellspacing="0" width="100%" class="wrapperArticals">
+					  
+						<tr>
+							<td align="center" valign="top" class="articalCell">
+
+								<!-- One Column Artical Open //-->
+								<table border="0" cellpadding="0" cellspacing="0" width="100%" class="oneColumn">
+									<tr>
+										<td style="padding-left:10px;padding-right:10px;padding-bottom:20px">
+
+											<table border="0" cellpadding="0" cellspacing="0" style="background-color:#FFFFFF;" width="100%" class="columnFull" >
+												<tr>
+													<td align="center" valign="top" style="padding-bottom:40px" class="postImg">
+														
+													</td>
+												</tr>
+
+												<tr>
+													<td align="center" valign="top" style="padding-bottom:20px;">
+														<!-- Catagory Table // -->
+														<table border="0" cellpadding="0" cellspacing="0">
+															<tr>
+																<td align="center" valign="top" class="catagoryImg">
+																	<!-- Catagory Link // -->
+																	<a href="#" target="_blank" style="display:inline-block;">
+																		
+																	</a>
+																</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+
+						<tr>
+							<td align="center" valign="top" style="padding-left:10px;padding-right:10px;">
+								
+								<!-- Email Header Open //-->
+								<table border="0" cellpadding="0" cellspacing="0" width="100%" class="emailHeader">
+									<tr>
+										<td align="center" valign="middle" style="padding-top:40px;padding-bottom:20px;padding-left:20px;padding-right:20px;" class="emailLogo">
+											<!-- Logo and Link  // -->
+											<a href="#" target="_blank" style="text-decoration:none;">
+											
+												<br>
+												<img  style="width:500px" src="https://gevva.co/waitlist/images/refer_a_friend.png" />
+											</a>
+										</td>
+									</tr>
+
+								</table>
+			
+								
+							</td>
+						</tr>
+												<tr>
+													<td align="center" valign="top" style="padding-bottom:20px;padding-left:20px;padding-right:20px;" class="postTitle">
+
+
+														<h2 class="bigText txt-circ" style="margin-top:10px; color:#191919; font-size:20px; font-weight:700; font-style:normal; letter-spacing:normal; line-height:30px; text-align:center; text-transform:none; padding:0; margin:0;">
+                                                            Refer a friend and move up the ranks!
+														</h2>
+													</td>
+												</tr>
+
+												
+
+												<tr>
+													<td align="center" valign="top" style="padding-bottom:40px;padding-left:20px;padding-right:20px;" class="postDesc">
+														<!-- Post Description // -->
+													<p class="midText txt-circ" style="color:#777777; font-size:12px; font-style:normal; letter-spacing:normal;  text-transform:none; text-align:center; margin:0; padding-bottom:20px;letter-spacing:1px">
+                                                        Hey {{name}}, don’t keep this to yourself. Tell a friend about Gevva and move up the queue. You have referred {{userReferredCount}} and you are {{userPosition}} in the queue.
+													
+
+												
+                              	
+                            	
+                            	<br>
+                            		
+                            	
+                            	 	<p class="midText" style="color:#777777; font-family: 'IBM Plex Sans', sans-serif; font-size:14px; font-weight:500; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; margin:0; padding-bottom:20px;">
+                            	  
+                           
+                            <button class="txt-circ" style="color: wine;border-radius: 15px;background-color: #9E2654;width: 150px;height: 30px;font-size: 10px;margin: 5%;">
+                                 <a target="_blank" style="color: #fff" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite={{userReferralCode}}>  invite friends </a><br>
+                              </button>
+														</p>
+														
+														 <div class="mx-auto txt-circ" style="
                               font-size: 8px;
                               padding: 20px 10% 10% 10%;
                               color: #808080b3;
-                              word-spacing: 5px;
+                              word-spacing: 1px;
                               "> 
                               Copyright © 2019 Gevva All rights reserved. 
                            </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Jquery JS-->
-    
-      <script src="sweetalert2/dist/sweetalert2.min.js"></script>
-      <script src="js/waitlist.js"></script>
+													</td>
+												</tr>
 
-   </body>
+
+											</table>
+
+										</td>
+									</tr>
+								</table>
+								<!-- One Column Artical Close //-->
+
+
+
+							
+
+
+
+							</td>
+						</tr>
+					</table>
+
+		
+		<!-- Wrapper Table Close //-->
+
+		<!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+		</td>
+	</tr>
+</table>
+
+</center>
+</body>
 </html>
-<!-- end document-->

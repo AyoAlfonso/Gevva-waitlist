@@ -75,7 +75,7 @@ router.post('/api/v1/newemail', async function(req, res) {
                 newUserName: user[0].name,
                 newUserEmail: user[0].email,
                 newUserReferralCode: user[0].referral_code,
-                newUserReferralCount: user[0].referral_count,
+                newUserReferralCount: user[0].referral_count + 1,
                 newUserCurrentPosition:  user[0].position
             })
             } else if (user.length == 0) {
