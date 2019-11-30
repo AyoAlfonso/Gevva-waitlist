@@ -18,7 +18,7 @@ module.exports = {
             to: subscriberEmail,
             from: senderEmail,
             subject: `Welcome to Gevva`,
-            templateId: 'f2845a5a-c8cc-4c78-a8aa-d0e41c7ec69d',
+            templateId: '686c22c8-7882-4cf0-8921-8b0ae4f87ee6',
             substitutions: {
                 name: subscriberName,
                 userReferralCodeLink: `${MAIN_URL}?invite=${newUserReferralCode}`,
@@ -51,7 +51,7 @@ module.exports = {
             to: newUserEmail,
             from: senderEmail,
             subject: `You're moving up the ranks!`,
-            templateId: '853bad28-416e-4bd8-9199-d3094fb09694',
+            templateId: 'ca091bc5-9556-4d02-85c5-bd324bf3d808',
             substitutions: {
                 name: newUserName,
                 userReferralCodeLink: `${MAIN_URL}?invite=${newUserReferralCode}`,

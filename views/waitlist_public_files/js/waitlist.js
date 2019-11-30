@@ -1,5 +1,5 @@
 
-        let url = "https://gevva-waitlist.herokuapp.com/api/v1/"
+        let url = "  https://5b9bd91a.ngrok.io/api/v1/"
 
         function getRefcode(name, url) {
             if (!url) url = window.location.href;
