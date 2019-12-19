@@ -2,6 +2,7 @@ require('dotenv').config();
 
 exports.sendgrid = {
     API_KEY: process.env.SENDGRID_API_KEY,
+    LIST_ID: prcocess.env.WAITLIST_ID 
 };
 
 exports.config = {

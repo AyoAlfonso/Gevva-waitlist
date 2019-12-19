@@ -70,7 +70,10 @@ router.post('/api/v1/newemail', async function(req, res) {
                 let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, referred_by) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, referred_by])
                 await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [refcode])
                 
-                     
+           names = user[0].name.split(" ");
+
+            await sendgridController.addContactToList(names[0], names[1], user[0].email)
+
             await sendgridController.sendInvitationUsedEmail({
                 newUserName: user[0].name,
                 newUserEmail: user[0].email,

@@ -1,4 +1,6 @@
 const sgMail = require('@sendgrid/mail');
+var http = require("https");
+const request = require('request');
 const Keys = require('../keys')
 const connection = require('../controller/db')
 sgMail.setApiKey(Keys.sendgrid.API_KEY);
@@ -71,6 +73,51 @@ module.exports = {
         }
     },
 
+    addContactToList: async function({first_name, last_name, email }){
+
+        var options = {
+                "method": "PUT",
+                "hostname": "api.sendgrid.com",
+                "port": null,
+                "path": "/v3/marketing/contacts",
+                "headers": {
+                "authorization": `Bearer ${Keys.sendgrid.API_KEY}`,
+                "content-type": "application/json"
+                }
+            };
+
+        let url  = options.hostname + options.path
+        let body = { 
+                    list_ids: [ Keys.sendgrid.API_KEY ],
+                    contacts: 
+                    [ {
+                        email: 'string (required)',
+                        first_name: 'string (optional)',
+                        last_name: 'string (optional)',
+                    }]
+                }
+   
+        console.log(url)
+
+            request({
+                url,
+                headers: options.headers,
+                body,
+                method: options.method
+            } , function(error, response, body) {
+                if (error) {
+                  console.log("Error:"+error)
+                  return;
+                }
+                if(body) {
+                    console.log(body)
+                    console.log("Successfully added contact")
+                    return;
+                }
+            }
+        )
+     },
+        
     sendVerificationEmail: async function({newUserName, newUserEmail, newUserReferralCode, newUserReferralCount,newUserCurrentPosition}) {
 
         let senderEmail = {
