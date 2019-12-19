@@ -369,9 +369,11 @@ router.get('/admin/home', authController.isLoggedIn, async function(req, res) {
     let now = new Date();
     let created_today = date.format(now, 'YYYY-MM-DD')
     try {
-        let users = await connection.query('SELECT name, referred_by, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +
+        let users = await connection.query('SELECT name, referred_by, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as position FROM subscribers t1 ,' +
             '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
 
+            // 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
+            // '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `email`=(?)', [email])
         let countLatestUsers = users.filter(user => {
             let created_at = moment(user.created_at).format('YYYY-MM-DD')
             if (created_at >= formattedTime) {

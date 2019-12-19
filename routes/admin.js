@@ -7,6 +7,7 @@ let connection = require("../controller/db");
 router.get("/", authController.isLoggedIn);
 
 router.get("/login", authController.isNotLoggedIn, (req, res) => {
+  console.log('df')
   return res.render("login", {
     title: `NannyFix LogIn`,
     message: `Welcome`

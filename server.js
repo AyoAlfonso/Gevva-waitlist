@@ -64,6 +64,7 @@ app.use(function (req, res, next) {
 })
 
 app.use('/', routes);
+app.use('/admin', adminRoute)
 
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
