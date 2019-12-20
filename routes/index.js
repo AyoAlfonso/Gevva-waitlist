@@ -1,58 +1,24 @@
 let express = require('express');
 let router = express.Router();
-let Parse = require('parse/node')
 let Keys = require('../keys')
-let bodyParser = require('body-parser')
 let sgMail = require('@sendgrid/mail')
-let mcapi = require('mailchimp-api')
 let titleCase = require('title-case')
 let connection = require('../controller/db')
-let userController = require('../controller/user')
 let authController = require('../controller/auth')
-let referalcontroller = require('../controller/referral')
 let sendgridController = require('../controller/sendgrid')
 let date = require('date-and-time');
 let shortid = require('shortid-36')
 let moment = require('moment')
 let gravatar = require('gravatar');
-
-function* range(start, end){
-    while (start<=end)
-      yield start++
-}
-
 sgMail.setApiKey(Keys.sendgrid.API_KEY);
 
-router.get('/', function(req, res) {
-    res.status(200).json({
-        message: 'Welcome to the Gevva Waitlist API!',
-        code: 200
-    })
-})
+function* range(start, end) {
+    while (start <= end)
+        yield start++
+}
 
-router.get('/admin', authController.isNotLoggedIn, function(req, res, next) {
-    res.redirect(`/admin/home`)
-})
-
-router.post('/api/v1/newemail', async function(req, res) {
-    let refcode = req.body.refcode || req.query.refcode
-    let subscriberEmail = req.body.email
-    let subscriberName = titleCase(req.body.name)
-    let plan = req.body.plan
-    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if (subscriberName == '') {
-        return res.status(401).json({
-            message: 'Name cannot be empty!',
-            code: 400
-        })
-    }
-    if (!re.test(subscriberEmail)) {
-        return res.status(401).json({
-            message: 'Email address is not valid!',
-            code: 400
-        })
-    }
+function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan){
+    subscriberName = titleCase(subscriberName);
 
     let existingUser = await connection.query('SELECT email FROM subscribers WHERE `email`=(?)', [subscriberEmail])
     if (existingUser.length !== 0) {
@@ -64,30 +30,34 @@ router.post('/api/v1/newemail', async function(req, res) {
 
         try {
             let referralCode = shortid.generate().toLowerCase()
-            let user = await connection.query('SELECT * FROM subscribers WHERE `referral_code`=(?)', [refcode])
+           
+            let user = await connection.query(
+                'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
+                '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `referral_code`=(?)', [refcode])
+
             if (user.length !== 0) {
                 let referred_by = user[0].email
-                let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, referred_by) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, referred_by])
+                await connection.query('INSERT INTO subscribers (email, name, referral_code, referred_by) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, referred_by])
                 await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [refcode])
-                
-           names = user[0].name.split(" ");
-
-            await sendgridController.addContactToList(names[0], names[1], user[0].email)
-
-            await sendgridController.sendInvitationUsedEmail({
-                newUserName: user[0].name,
-                newUserEmail: user[0].email,
-                newUserReferralCode: user[0].referral_code,
-                newUserReferralCount: user[0].referral_count + 1,
-                newUserCurrentPosition:  user[0].position
-            })
+                await sendgridController.sendInvitationUsedEmail({
+                    newUserName: user[0].name,
+                    newUserEmail: user[0].email,
+                    newUserReferralCode: user[0].referral_code,
+                    newUserReferralCount: user[0].referral_count + 1,
+                    newUserCurrentPosition: user[0].position
+                })
             } else if (user.length == 0) {
-                let savedUser = await connection.query('INSERT INTO subscribers (email, name, referral_code, plan) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, plan])
+               await connection.query('INSERT INTO subscribers (email, name, referral_code, plan) VALUES (?, ?, ?, ?)', [subscriberEmail, subscriberName, referralCode, plan])
             }
-            
+
             let newUser = await connection.query(
                 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
                 '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `referral_code`=(?)', [referralCode])
+            
+                names = user[0].name.split(" ");
+                names[1] = names[1] ? names[1] : null
+
+           await sendgridController.addContactToList({first_name : names[0], last_name: names[1],email: newUser[0].email})
 
             let newUserReferralCode = newUser[0].referral_code
             let newUserCurrentPosition = newUser[0].position
@@ -108,6 +78,41 @@ router.post('/api/v1/newemail', async function(req, res) {
             })
         }
     }
+}
+
+
+router.get('/', function(req, res) {
+    res.status(200).json({
+        message: 'Welcome to the Gevva Waitlist API!',
+        code: 200
+    })
+})
+
+router.get('/admin', authController.isNotLoggedIn, function(req, res, next) {
+    res.redirect(`/admin/home`)
+})
+
+router.post('/api/v1/newemail', async function(req, res) {
+    let refcode = req.body.refcode || req.query.refcode
+    let subscriberEmail = req.body.email
+    let subscriberName = req.body.name
+    let plan = req.body.plan
+    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (subscriberName == '') {
+        return res.status(401).json({
+            message: 'Name cannot be empty!',
+            code: 400
+        })
+    }
+    if (!re.test(subscriberEmail)) {
+        return res.status(401).json({
+            message: 'Email address is not valid!',
+            code: 400
+        })
+    }
+
+ newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan)
 })
 
 router.get('/verify', async function(req, res) {
@@ -372,8 +377,8 @@ router.get('/admin/home', authController.isLoggedIn, async function(req, res) {
         let users = await connection.query('SELECT name, referred_by, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as position FROM subscribers t1 ,' +
             '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
 
-            // 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
-            // '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `email`=(?)', [email])
+        // 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
+        // '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `email`=(?)', [email])
         let countLatestUsers = users.filter(user => {
             let created_at = moment(user.created_at).format('YYYY-MM-DD')
             if (created_at >= formattedTime) {
@@ -391,7 +396,7 @@ router.get('/admin/home', authController.isLoggedIn, async function(req, res) {
         let count = users.length
 
         let invitationSent = users.filter(user => {
-            if (user.invite != "notInvited") {
+            if (user.invite) {
                 return user
             }
         })
@@ -442,7 +447,7 @@ router.get('/admin/home', authController.isLoggedIn, async function(req, res) {
 router.get('/admin/metric', authController.isLoggedIn, async function(req, res) {
     try {
 
-        let uniqueEntries = await connection.query('SELECT * FROM metrics GROUP BY emailcode, email')
+        let uniqueEntries = await connection.query('SELECT * FROM metrics')
         let usersNotOpened = [];
         let emails = [];
 
@@ -457,11 +462,11 @@ router.get('/admin/metric', authController.isLoggedIn, async function(req, res) 
         })
         await Promise.all(emails)
 
-        let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +
+        let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as position FROM subscribers t1 ,' +
             '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
 
         let invitationSent = users.filter(user => {
-            if (user.invite != "notInvited") {
+            if (user.invite) {
                 return user
             }
         })
@@ -589,14 +594,18 @@ router.get('/admin/metric', authController.isLoggedIn, async function(req, res) 
 });
 
 router.post('/invite', async function(req, res) {
+
     let refcode = req.body.refcode
+    console.log(refcode)
+
     let user = await connection.query('SELECT name, email, invite FROM subscribers WHERE `referral_code`=(?)', [refcode])
     let subscriberName = user[0].name
     let subscriberEmail = user[0].email
     let invitationStatus = user[0].invite
 
-    if (invitationStatus == "notInvited") {
+    if (!invitationStatus) {
         try {
+
             let mailSubject = `Your Golden Ticket Is Here`
             // await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
             let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
@@ -631,40 +640,80 @@ router.post('/invite', async function(req, res) {
     }
 });
 
-router.post('/reinvite', async function(req, res) {
-    let refcode = req.body.refcode
-    let user = await connection.query('SELECT name, email, invite FROM subscribers WHERE `referral_code`=(?)', [refcode])
-    let subscriberName = user[0].name
-    let subscriberEmail = user[0].email
-    let invitationStatus = user[0].invite
 
-    if (invitationStatus == "invited") {
+router.post('verify-manual-invite', async function(req, res) {
+
+    //  req.query.email
+     let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.query.email])
+
+     if() {
         try {
-            let mailSubject = "Missed Your Golden Ticket?"
-            // await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
-            let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
-
-            if (result.affectedRows == 0) {
-                return res.status(200).json({
-                    message: `This user doesnt exist!`,
-                    code: 404
-                })
-            }
-
-            if (result.affectedRows > 0) {
-                return res.status(200).json({
-                    message: `${subscriberName} has successfully been re-invited!`,
-                    code: 200
-                })
-            }
+            newMemberRegsitration(member[0].,refcode, subscriberName, plan)
+    
         } catch (error) {
             return res.status(500).json({
-                message: `An error occured while trying to update user ${error.message}`,
+                message: `An error occured while trying to update users ${error.message}`,
                 code: 500
             })
         }
-    }
-})
+     }
+
+
+}),
+
+router.post('/manual-invite', async function(req, res) {
+        let {
+            name,
+            email
+        } = req.body
+
+        try {
+            let savedUser = await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [emai, name])
+            let mailSubject = "You have been invited to use Gevva!"
+            await sendgridController.sendManualInviteEmail(subscriberEmail, subscriberName, mailSubject)
+        } catch (error) {
+            return res.status(500).json({
+                message: `An error occured while trying to update users ${error.message}`,
+                code: 500
+            })
+        }
+
+    }),
+
+    router.post('/reinvite', async function(req, res) {
+        let refcode = req.body.refcode
+        let user = await connection.query('SELECT name, email, invite FROM subscribers WHERE `referral_code`=(?)', [refcode])
+        let subscriberName = user[0].name
+        let subscriberEmail = user[0].email
+        let invitationStatus = user[0].invite
+
+        if (invitationStatus == "invited") {
+            try {
+                let mailSubject = "Missed Your Golden Ticket?"
+                await sendgridController.sendInviteEmail(subscriberEmail, subscriberName, refcode, mailSubject)
+                let result = await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [refcode])
+
+                if (result.affectedRows == 0) {
+                    return res.status(200).json({
+                        message: `This user doesnt exist!`,
+                        code: 404
+                    })
+                }
+
+                if (result.affectedRows > 0) {
+                    return res.status(200).json({
+                        message: `${subscriberName} has successfully been re-invited!`,
+                        code: 200
+                    })
+                }
+            } catch (error) {
+                return res.status(500).json({
+                    message: `An error occured while trying to update user ${error.message}`,
+                    code: 500
+                })
+            }
+        }
+    })
 
 router.get('/imgTracking/:imgtype/:refcode/:emailType/', async function(req, res) {
     let encodedImgUrl = req.url
@@ -679,12 +728,12 @@ router.get('/imgTracking/:imgtype/:refcode/:emailType/', async function(req, res
         let user = await connection.query('SELECT email FROM subscribers WHERE `referral_code`=(?)', [refcode]);
         if (user.length !== 0) {
             let savedEvent = await connection.query('INSERT INTO metrics (email, event, timestamp, description, emailcode) VALUES (?, ?, ?, ?, ?)', [user[0].email, eventType, time, "open", emailType])
-            return res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/pixelated-nanny-fix.png`)
+            // return res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/pixelated-nanny-fix.png`)
             //return (imgtype == "nannyfix-logo") ? res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/nanny-fix.png`) : (imgtype == "nannyfix-golden-logo") ? res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/gold.png`) : res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/logo.png`)
         }
 
         //A fallback image in case the event is not recognised.
-        res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/pixelated-nanny-fix.png`)
+        // res.redirect(`https://s3.us-east-2.amazonaws.com/nannyfix-campaign/img/pixelated-nanny-fix.png`)
     } catch (error) {
         return res.status(500).json({
             message: `An error occured while trying to hadle image request user ${error.message}`,
@@ -716,14 +765,14 @@ router.post('/sendGridWebHook', async function(req, res) {
 router.post('/massinvite', authController.isLoggedIn, async function(req, res) {
     let from = Number.parseInt(req.body.from)
     let to = Number.parseInt(req.body.to)
-    
+
     if (Number.isInteger(from) && Number.isInteger(to)) {
         if (to > from && to > 0 && from > 0) {
             let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, invite, verified, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +
                 '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
             let state = 0;
             let uninvitedUsers = users.filter(user => {
-                if (user.invite == "notInvited") {
+                if (!user.invite) {
                     let rangeArray = [...range(from, to)]
                     for (let i = 0; i < rangeArray.length; i++) {
                         if (user.rank == rangeArray[i]) {
@@ -735,7 +784,7 @@ router.post('/massinvite', authController.isLoggedIn, async function(req, res) {
             })
 
             try {
-                let mailSubject = `Your NannyFix Account is ready`
+                let mailSubject = `Your Gevva Account is ready`
                 for (let i = 0; i < uninvitedUsers.length; i++) {
                     // await sendgridController.sendInviteEmail(uninvitedUsers[i].email, uninvitedUsers[i].name, uninvitedUsers[i].referral_code, mailSubject)
                     await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [uninvitedUsers[i].referral_code])
@@ -774,7 +823,7 @@ router.post('/mass-invite-new-email', authController.isLoggedIn, async function(
                 '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
             let state = 0;
             let uninvitedUsers = users.filter(user => {
-                if (user.invite == "notInvited") {
+                if (!user.invite) {
                     let rangeArray = [...range(from, to)]
                     for (let i = 0; i < rangeArray.length; i++) {
                         if (user.rank == rangeArray[i]) {
@@ -820,11 +869,6 @@ router.post('/mass-invite-new-email', authController.isLoggedIn, async function(
             code: 400
         })
     }
-})
-
-router.post('/api/v1/newfindcode', async function(req, res) {
-    let plan = req.body.plan
-
 })
 
 router.post('/massreinvite', authController.isLoggedIn, async function(req, res) {

@@ -4,7 +4,7 @@ const util = require("util");
 require("dotenv").config();
 
 var pool = mysql.createPool({
-  connectionLimit: 50,
+  connectionLimit: 4,
   connectTimeout: 60 * 60 * 1000,
   host: process.env.WAITLIST_DB_URL || process.env.WAITLIST_LIVE_DB_URL,
   port: process.env.WAITLIST_DB_PORT || process.env.WAITLIST_LIVE_DB_PORT,
