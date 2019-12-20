@@ -646,10 +646,10 @@ router.post('verify-manual-invite', async function(req, res) {
     //  req.query.email
      let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.query.email])
 
-     if() {
+     if(member.length != 0) {
         try {
-            newMemberRegsitration(member[0].,refcode, subscriberName, plan)
-    
+            newMemberRegsitration(member[0].email,null, subscriberName, plan)
+
         } catch (error) {
             return res.status(500).json({
                 message: `An error occured while trying to update users ${error.message}`,
