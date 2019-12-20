@@ -10,7 +10,7 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
-   
+
 
         $('#copyStatus_b').click(function() {
            let refLink = document.getElementById("demosharelink2").innerHTML
@@ -23,7 +23,86 @@
             document.getElementById("copyStatus_a").innerHTML = refLink
           
          });
-    
+
+         document.getElementById("joinWaitlistModal").onload = function() {verifyManualInvite()};
+
+             function verifyManualInvite() {
+                let email = getRefcode('manual-invite')
+                
+                email = $.trim(email);
+                let validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
+                if(!validEmail){
+                    errorHandler('Please check the email inputed')
+                    return
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url + 'verify-manual-invite',
+                    data: {
+                        email 
+                    },
+                    
+                    beforeSend: function() {
+                        $('#errorMsg').html("<img style='height:50px' src='/images/loading-giph.gif' />");
+                      },
+                    success: function (json) {
+                        $('#errorMsg').html("");
+                        if (json == undefined) {
+                             swal({
+                                title: 'Try and sign up!',
+                                text: 'Your email doesnt exist on our waiting list',
+                                imageUrl: 'images/error.png',
+                                imageWidth: 120,
+                                imageHeight: 120,
+                                animation: false
+                            });
+                            errorHandler('Try and sign up!')
+                            return false
+                        }
+                        if (json.code == 409) {
+                            errorHandler(json.message)
+                            return false
+                        }
+                        if (json.code == 200) {
+                            let userReferralCode = json.user.referral_code
+                            let positionNumber = json.user.position
+
+                            let twitterlink =
+                                `<a target="_blank" data-toggle="tooltip" href="http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}" >
+                                <img src="./images/icons/twitter.svg" alt="twitter icon">
+                                </a>`
+
+                            let whatsapplink =
+                                `<a target="_blank" href=https://api.whatsapp.com/send?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%20https://www.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/whatsapp.svg" alt="whatsapp icon"> </a>`
+                            
+                            let mailtolink =
+                                `<a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/gmail.svg" alt="gmail icon"> </a><br>`
+                            document.getElementById("demopositionnumber").innerHTML = positionNumber
+                            document.getElementById("demotwitterlink").innerHTML = twitterlink
+                            document.getElementById("demowhatsapplink").innerHTML = whatsapplink
+                            document.getElementById("demomailto").innerHTML = mailtolink
+
+                            document.getElementById("demosharelink").innerHTML =
+                                `Gevva.co/?invite=${userReferralCode}`
+                             let refLink = `Gevva.co/?invite=${userReferralCode}`;
+
+                             $('#joinedWaitlistModal').modal('show')
+
+                            
+                        }
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        if (err) {
+                            console.log(err)
+                            errorHandler('An error occured')
+                            return false
+                        }
+                    }
+                });
+             }
+
+
         function onRequestSubmit() {
             function errorHandler(msg){
                 document.getElementById("errorMsg").innerHTML = msg
@@ -81,7 +160,6 @@
                         if (json.code == 200) {
                             let userReferralCode = json.user.referral_code
                             let positionNumber = json.user.position
-                            let referralCount = json.user.referral_count
 
                             let twitterlink =
                                 `<a target="_blank" data-toggle="tooltip" href="http://twitter.com/share?text=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21&url=https%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}" >
@@ -94,7 +172,6 @@
                             let mailtolink =
                                 `<a target="_blank" data-original-title="Email" href=mailto:?subject=Check%20This%20Out&body=I%20just%20joined%20Gevva%21%20Join%20Gevva%20too%20and%20get%20exclusive%20early%20access%20to%20the%20Gevva%20app%20now%21%0Ahttps%3A%2F%2Fwww.gevva.co/?invite=${userReferralCode}> <img src="./images/icons/gmail.svg" alt="gmail icon"> </a><br>`
                             document.getElementById("demopositionnumber").innerHTML = positionNumber
-                            // document.getElementById("demoreferralnumber").innerHTML = referralCount
                             document.getElementById("demotwitterlink").innerHTML = twitterlink
                             document.getElementById("demowhatsapplink").innerHTML = whatsapplink
                             document.getElementById("demomailto").innerHTML = mailtolink

@@ -17,7 +17,7 @@ function* range(start, end) {
         yield start++
 }
 
-function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan){
+async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan){
     subscriberName = titleCase(subscriberName);
 
     let existingUser = await connection.query('SELECT email FROM subscribers WHERE `email`=(?)', [subscriberEmail])
@@ -642,23 +642,18 @@ router.post('/invite', async function(req, res) {
 
 
 router.post('verify-manual-invite', async function(req, res) {
-
-    //  req.query.email
      let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.query.email])
 
      if(member.length != 0) {
         try {
-            newMemberRegsitration(member[0].email,null, subscriberName, plan)
-
+            newMemberRegsitration(member[0].email, null, member[0].name, null)
         } catch (error) {
             return res.status(500).json({
-                message: `An error occured while trying to update users ${error.message}`,
+                message: `An error occured while trying to create account for an invited user ${error.message}`,
                 code: 500
             })
         }
      }
-
-
 }),
 
 router.post('/manual-invite', async function(req, res) {
