@@ -17,7 +17,7 @@ function* range(start, end) {
         yield start++
 }
 
-async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan){
+async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res){
     subscriberName = titleCase(subscriberName);
 
     let existingUser = await connection.query('SELECT email FROM subscribers WHERE `email`=(?)', [subscriberEmail])
@@ -54,10 +54,10 @@ async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, pl
                 'SELECT * FROM (  SELECT name, email, referral_count, referral_code, referred_by, @rownum:=@rownum + 1 as position FROM subscribers t1,' +
                 '(SELECT @rownum := 0) t2 ORDER BY referral_count DESC, created_at ASC) t1 WHERE `referral_code`=(?)', [referralCode])
             
-                names = user[0].name.split(" ");
+                names = subscriberName.split(" ");
                 names[1] = names[1] ? names[1] : null
 
-           await sendgridController.addContactToList({first_name : names[0], last_name: names[1],email: newUser[0].email})
+           await sendgridController.addContactToList({first_name : names[0], last_name: names[1], email: newUser[0].email})
 
             let newUserReferralCode = newUser[0].referral_code
             let newUserCurrentPosition = newUser[0].position
@@ -71,6 +71,7 @@ async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, pl
             })
 
         } catch (error) {
+            console.log(error)
             return res.status(501).status(501).json({
                 message: `An error occured while trying to handle the new subscriber: ${error.message}`,
                 error: error,
@@ -112,7 +113,7 @@ router.post('/api/v1/newemail', async function(req, res) {
         })
     }
 
- newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan)
+ newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res)
 })
 
 router.get('/verify', async function(req, res) {
