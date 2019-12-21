@@ -214,7 +214,7 @@ module.exports = {
             templateId,
             substitutions: {
                 name: subscriberName,
-                userManualReferralCodeLink: `${MAIN_URL}/invite/${ReferralCode}`,
+                userManualReferralCodeLink: `${MAIN_URL}?manual-invite=${toEmail}`,
                 referrer_name: '12234admin',
                 trackingURL: `${API_URL}/imgTracking/nannyfix-golden-logo/${ReferralCode}/${templateId}`
             }

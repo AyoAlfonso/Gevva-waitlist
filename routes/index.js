@@ -656,7 +656,7 @@ router.post('verify-manual-invite', async function(req, res) {
      }
 }),
 
-router.post('/manual-invite', async function(req, res) {
+router.post('manual-invite', async function(req, res) {
         let {
             name,
             email

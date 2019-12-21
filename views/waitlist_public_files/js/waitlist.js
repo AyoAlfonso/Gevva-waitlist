@@ -1,5 +1,5 @@
 
-        let url = "   https://bd5a1ddb.ngrok.io/api/v1/"
+        let url = "https://f8570bc6.ngrok.io/api/v1/"
 
         function getRefcode(name, url) {
             if (!url) url = window.location.href;
