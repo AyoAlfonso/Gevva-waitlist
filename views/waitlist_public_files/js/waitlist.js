@@ -24,9 +24,15 @@
           
          });
 
+         window.onload = function() {
+            verifyManualInvite()
+         }
+
          document.getElementById("joinWaitlistModal").onload = function() {verifyManualInvite()};
 
              function verifyManualInvite() {
+    
+              
                 let email = getRefcode('manual-invite')
                 
                 email = $.trim(email);
