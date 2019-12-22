@@ -678,7 +678,7 @@ router.post('/invite', async function(req, res) {
 
 
 router.post('verify-manual-invite', async function(req, res) {
-     let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.query.email])
+     let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.body.email])
 
      if(member.length != 0) {
         try {
