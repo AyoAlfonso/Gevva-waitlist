@@ -17,7 +17,7 @@ function* range(start, end) {
         yield start++
 }
 
-async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res){
+async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, invitation){
     subscriberName = titleCase(subscriberName);
 
     let existingUser = await connection.query('SELECT email FROM subscribers WHERE `email`=(?)', [subscriberEmail])
@@ -26,7 +26,13 @@ async function newMemberRegsitration(subscriberEmail,refcode, subscriberName, pl
             message: 'Someone aleady subscribed with this mail!',
             code: 409
         })
+        
+      
     } else {
+
+        if(invitation){
+            return;
+        }
 
         try {
             let referralCode = shortid.generate().toLowerCase()
@@ -113,8 +119,37 @@ router.post('/api/v1/newemail', async function(req, res) {
         })
     }
 
- newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res)
+ newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, invitation)
 })
+
+router.post('manual-invite', async function(req, res) {
+    let {
+        name,
+        email,
+        refcode
+    } = req.body
+
+    try {
+        newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, "invitation")
+        let user = await connection.query('SELECT email, name, referral_count, referral_code, referred_by, verified FROM subscribers WHERE `referral_code`=(?)', [refcode])
+      
+        let referralName = user[0].name
+        let savedUser = await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [email, name])
+        let mailSubject = "You have been invited to use Gevva!"
+        await sendgridController.sendManualInviteEmail(email, referralName ,name, mailSubject)
+
+        return res.status(200).json({
+            code: 200
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: `An error occured while trying to update users ${error.message}`,
+            code: 500
+        })
+    }
+
+}),
 
 router.get('/verify', async function(req, res) {
     let now = new Date();
@@ -647,7 +682,7 @@ router.post('verify-manual-invite', async function(req, res) {
 
      if(member.length != 0) {
         try {
-            newMemberRegsitration(member[0].email, null, member[0].name, null)
+            newMemberRegsitration(member[0].email, null, member[0].name, null, res, null)
         } catch (error) {
             return res.status(500).json({
                 message: `An error occured while trying to create account for an invited user ${error.message}`,
@@ -657,24 +692,6 @@ router.post('verify-manual-invite', async function(req, res) {
      }
 }),
 
-router.post('manual-invite', async function(req, res) {
-        let {
-            name,
-            email
-        } = req.body
-
-        try {
-            let savedUser = await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [emai, name])
-            let mailSubject = "You have been invited to use Gevva!"
-            await sendgridController.sendManualInviteEmail(subscriberEmail, subscriberName, mailSubject)
-        } catch (error) {
-            return res.status(500).json({
-                message: `An error occured while trying to update users ${error.message}`,
-                code: 500
-            })
-        }
-
-    }),
 
     router.post('/reinvite', async function(req, res) {
         let refcode = req.body.refcode

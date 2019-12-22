@@ -27,13 +27,13 @@ let API_URL = Keys.config.API_URL;
 let now = moment();
 
 module.exports = {
-    /** This cron job gets the subcsribers that have spent exactly 4 days on the list and sends them a mail */
+    /** This cron job gets the subcsribers that have spent exactly 7 days on the list and sends them a mail */
     dripJob1: function() {
         var job_a = new CronJob({
-            cronTime: "02 14 * * *", //06:40 am (morning) every day.  //  02 14 * * *   // */15 * * * * *  
+            cronTime: "02 14 7 * *", //06:40 am (morning) every day.  //  02 14 * * *   // */15 * * * * *  
             onTick: async function() {
-                console.log(`We are in the " exactly 4 days" cron job...`)
-                let activityCode = "bec5b1dc-b660-4bef-bfe9-d9817c3b28bc";
+                console.log(`We are in the " exactly 7 days" cron job...`)
+                let activityCode = "3f957d2f-ee68-4e7d-8e95-73e704baf6e7";
 
                 let users = await connection.query('SELECT name, email, referral_count, referral_code, created_at, @rownum:=@rownum + 1 as rank FROM subscribers t1 ,' +
                     '(SELECT @rownum := 0) t2 WHERE `dummy` = "false" ORDER BY referral_count DESC, created_at ASC')
@@ -54,7 +54,7 @@ module.exports = {
                             console.log(`Sending request to the API page with this email detail: ${userEmail}`)
 
                             if (user) {
-                                let userName = user.name || "Nanny"
+                                let userName = user.name || "Gevva Member"
                                 userName = titleCase(userName)
 
                                 let userPosition = user.rank

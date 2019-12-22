@@ -167,7 +167,6 @@ module.exports = {
                 userVerificationCodeLink: `${MAIN_URL}/verify/${newUserReferralCode}`,
                 userReferralCode: newUserReferralCode,
                 trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/${templateId}`
-
             }
         };
         try {
@@ -179,9 +178,11 @@ module.exports = {
         }
     },
 
-    sendManualInviteEmail: async function(subscriberEmail, subscriberName, subject){
+    sendManualInviteEmail: async function(subscriberEmail, refName, subscriberName, subject){
 
         let templateId = '42937bd8-3b49-4af7-b8e2-5ba7e61767ce';
+        refName = refName ? 'A Gevva Admin' : null
+
         let toEmail = subscriberEmail
         let msg = {
             reply_to: senderEmail,
@@ -192,8 +193,8 @@ module.exports = {
             substitutions: {
                 name: subscriberName,
                 userManualReferralCodeLink: `${MAIN_URL}?manual-invite=${toEmail}`,
-                referrer_name: '12234admin',
-                trackingURL: `${API_URL}/imgTracking/nannyfix-golden-logo/${ReferralCode}/${templateId}`
+                referrer_name: refName
+                // trackingURL: `${API_URL}/imgTracking/nannyfix-golden-logo/${ReferralCode}/${templateId}`
             }
         };
 
