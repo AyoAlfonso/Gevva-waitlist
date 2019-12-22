@@ -181,7 +181,6 @@ module.exports = {
     sendManualInviteEmail: async function(subscriberEmail, refName, subscriberName, subject){
 
         let templateId = '42937bd8-3b49-4af7-b8e2-5ba7e61767ce';
-        refName = refName ? 'A Gevva Admin' : null
 
         let toEmail = subscriberEmail
         let msg = {

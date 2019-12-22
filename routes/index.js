@@ -132,9 +132,11 @@ router.post('manual-invite', async function(req, res) {
     try {
         newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, "invitation")
         let user = await connection.query('SELECT email, name, referral_count, referral_code, referred_by, verified FROM subscribers WHERE `referral_code`=(?)', [refcode])
-      
-        let referralName = user[0].name
-        let savedUser = await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [email, name])
+        let referralName;
+        if(user.length != 0) {
+           referralName = user[0].name ? 'A Gevva Admin' : null
+        }
+        await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [email, name])
         let mailSubject = "You have been invited to use Gevva!"
         await sendgridController.sendManualInviteEmail(email, referralName ,name, mailSubject)
 
