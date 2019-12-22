@@ -311,6 +311,7 @@
          }
          
          function onMultiReInvite(){
+            return
                  let start = Number.parseInt(document.getElementById("rangeStart").value)
                  let end = Number.parseInt(document.getElementById("rangeEnd").value)
                  let tag = document.getElementById("multinviteOptions").value
@@ -392,6 +393,7 @@
          
            }
          function onMultiInvite(id){
+            return
                  let start = Number.parseInt(document.getElementById("rangeStart").value)
                  let end = Number.parseInt(document.getElementById("rangeEnd").value)
                  let intent = (id=="massinvite")? "/massinvite" : "/mass-invite-new-email";
@@ -465,6 +467,7 @@
            }
          
            function onInvite(e) {
+              return
              if (!e) return swal({
                  title: "Wrong details",
                  text: "An error occured on the server",
@@ -504,6 +507,7 @@
              })
          }
              function onResendInvite(e) {
+               return
              if (!e) return swal({
                  title: "Wrong details",
                  text: "An error occured on the server",

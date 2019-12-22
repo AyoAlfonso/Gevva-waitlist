@@ -801,7 +801,7 @@ router.post('/massinvite', authController.isLoggedIn, async function(req, res) {
             try {
                 let mailSubject = `Your Gevva Account is ready`
                 for (let i = 0; i < uninvitedUsers.length; i++) {
-                    // await sendgridController.sendInviteEmail(uninvitedUsers[i].email, uninvitedUsers[i].name, uninvitedUsers[i].referral_code, mailSubject)
+                    await sendgridController.sendInviteEmail(uninvitedUsers[i].email, uninvitedUsers[i].name, uninvitedUsers[i].referral_code, mailSubject)
                     await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [uninvitedUsers[i].referral_code])
                 }
                 return res.status(200).json({
@@ -853,13 +853,13 @@ router.post('/mass-invite-new-email', authController.isLoggedIn, async function(
                 let mailSubject = `New mail from Nannyfix`
                 let activityCode = `1ac0fb71-0b97-4e4e-a35e-5cadb737acce-Invite-UnSent`
                 for (let i = 0; i < uninvitedUsers.length; i++) {
-                    // await sendgridController.sendInviteEmailV2({
-                    //     subscriberEmail: uninvitedUsers[i].email,
-                    //     subscriberName: uninvitedUsers[i].name,
-                    //     ReferralCode: uninvitedUsers[i].referral_code,
-                    //     subject: mailSubject,
-                    //     trackingCode: activityCode
-                    // })
+                    await sendgridController.sendInviteEmailV2({
+                        subscriberEmail: uninvitedUsers[i].email,
+                        subscriberName: uninvitedUsers[i].name,
+                        ReferralCode: uninvitedUsers[i].referral_code,
+                        subject: mailSubject,
+                        trackingCode: activityCode
+                    })
                     await connection.query('UPDATE subscribers SET `invite` = "invited" WHERE `referral_code`=(?)', [uninvitedUsers[i].referral_code])
                 }
                 return res.status(200).json({
@@ -931,7 +931,7 @@ router.post('/massreinvite', authController.isLoggedIn, async function(req, res)
 
             try {
                 if (tag == "opens") {
-                    let mailSubject = `Your NannyFix Account is ready`
+                    let mailSubject = `Your Gevva Account is ready`
                     let activityCode = `29738351-e26d-4c69-8f8c-5047146ae04c-On-Open`
                     for (let i = 0; i < goldenTicketInviteOpened.length; i++) {
                         // await sendgridController.sendReinviteEmail({
@@ -945,7 +945,7 @@ router.post('/massreinvite', authController.isLoggedIn, async function(req, res)
                 }
 
                 if (tag == "unopens") {
-                    let mailSubject = `Your NannyFix Account is ready`
+                    let mailSubject = `Your Gevva Account is ready`
                     let activityCode = `29738351-e26d-4c69-8f8c-5047146ae04c-On-Unopen`
                     for (let i = 0; i < goldenTicketInviteNotOpened.length; i++) {
                         // await sendgridController.sendReinviteEmail({

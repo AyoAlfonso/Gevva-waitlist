@@ -108,7 +108,7 @@ module.exports = {
                 userReferredCount: newUserReferralCount,
                 userVerificationCodeLink: `${MAIN_URL}/verify/${newUserReferralCode}`,
                 userReferralCode: newUserReferralCode,
-                trackingURL: `${API_URL}/imgTracking/gevva-logo/${newUserReferralCode}/${templateId}`
+                // trackingURL: `${API_URL}/imgTracking/gevva-logo/${newUserReferralCode}/${templateId}`
             }
         };
 
@@ -137,7 +137,7 @@ module.exports = {
                 userPosition: newUserCurrentPosition,
                 userReferredCount: newUserReferralCount,
                 userReferralCode: newUserReferralCode,
-                trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/${templateId}`
+                // trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/${templateId}`
             }
         };
 
@@ -166,7 +166,7 @@ module.exports = {
                 userReferredCount: newUserReferralCount,
                 userVerificationCodeLink: `${MAIN_URL}/verify/${newUserReferralCode}`,
                 userReferralCode: newUserReferralCode,
-                trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/${templateId}`
+                // trackingURL: `${API_URL}/imgTracking/nannyfix-logo/${newUserReferralCode}/${templateId}`
             }
         };
         try {
@@ -192,7 +192,7 @@ module.exports = {
             substitutions: {
                 name: subscriberName,
                 userManualReferralCodeLink: `${MAIN_URL}?manual-invite=${toEmail}`,
-                referrer_name: refName
+                referrer_name: refName,
                 // trackingURL: `${API_URL}/imgTracking/nannyfix-golden-logo/${ReferralCode}/${templateId}`
             }
         };
