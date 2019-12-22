@@ -122,7 +122,7 @@ router.post('/api/v1/newemail', async function(req, res) {
  newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, null)
 })
 
-router.post('manual-invite', async function(req, res) {
+router.post('/manual-invite', async function(req, res) {
     let {
         name,
         email,
