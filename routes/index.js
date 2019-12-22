@@ -130,7 +130,7 @@ router.post('/api/v1/manual-invite', async function(req, res) {
     } = req.body
 
     try {
-        newMemberRegsitration(subscriberEmail,refcode, subscriberName, plan, res, "invitation")
+        newMemberRegsitration(email,refcode, name, plan, res, "invitation")
         let user = await connection.query('SELECT email, name, referral_count, referral_code, referred_by, verified FROM subscribers WHERE `referral_code`=(?)', [refcode])
         let referralName;
         if(user.length != 0) {
