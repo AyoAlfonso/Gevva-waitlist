@@ -136,7 +136,7 @@ router.post('/api/v1/manual-invite', async function(req, res) {
         if(user.length != 0) {
            referralName = user[0].name
         }
-        await connection.query('INSERT INTO invitees (email, name) VALUES (?, ?)', [email, name])
+        await connection.query('INSERT INTO invitees (email, name, referred_by) VALUES (?, ?, ?)', [email, name, referred_by])
         let mailSubject = "You have been invited to use Gevva!"
         await sendgridController.sendManualInviteEmail(email, referralName ,name, mailSubject)
 
@@ -684,6 +684,8 @@ router.post('/api/v1/verify-manual-invite', async function(req, res) {
 
      if(member.length != 0) {
         try {
+          
+           await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [member[0].referred_by])
             newMemberRegsitration(member[0].email, null, member[0].name, null, res, null)
         } catch (error) {
             return res.status(500).json({
