@@ -681,12 +681,16 @@ router.post('/invite', async function(req, res) {
 
 router.post('/api/v1/verify-manual-invite', async function(req, res) {
      let member = await connection.query('SELECT * FROM invitees WHERE `email`=(?)', [req.body.email])
-
+    
      if(member.length != 0) {
         try {
-          
-           await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [member[0].referred_by])
-            newMemberRegsitration(member[0].email, null, member[0].name, null, res, null)
+            let refcode;
+            let user = await connection.query('SELECT name, email, invite FROM subscribers WHERE `referral_code`=(?)', [member[0].referred_by])
+            if(user.length!=0) {
+                await connection.query('UPDATE subscribers SET referral_count = referral_count + 1 WHERE `referral_code`=(?)', [member[0].referred_by])
+                refcode = member[0].referred_by
+            }
+            newMemberRegsitration(member[0].email, refcode, member[0].name, null, res, null)
         } catch (error) {
             return res.status(500).json({
                 message: `An error occured while trying to create account for an invited user ${error.message}`,
