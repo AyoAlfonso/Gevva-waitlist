@@ -131,8 +131,18 @@ router.post('/api/v1/manual-invite', async function(req, res) {
 
     try {
         newMemberRegsitration(email,refcode, name, null, res, "invitation")
+
+        let existingInvitee = await connection.query('SELECT email FROM invitees WHERE `email`=(?)', [email])
+        
+        if (existingInvitee.length !== 0) {
+            return res.json({
+                message: 'Someone aleady invited this email!',
+                code: 409
+            })
+          
+        }
         let user = await connection.query('SELECT email, name, referral_count, referral_code, referred_by, verified FROM subscribers WHERE `referral_code`=(?)', [refcode])
-        let referralName = 'A Gevva Admin';
+        let referralName = 'Gevva Admin';
         if(user.length != 0) {
            referralName = user[0].name
         }
