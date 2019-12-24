@@ -147,7 +147,6 @@ router.post('/api/v1/manual-invite', async function(req, res) {
            referralName = user[0].name
         }
 
-        console.log("refcode" + refcode)
         await connection.query('INSERT INTO invitees (email, name, referred_by) VALUES (?, ?, ?)', [email, name, refcode])
         let mailSubject = "You have been invited to use Gevva!"
         await sendgridController.sendManualInviteEmail(email, referralName ,name, mailSubject)
