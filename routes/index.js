@@ -136,7 +136,7 @@ router.post('/api/v1/manual-invite', async function(req, res) {
         
         if (existingInvitee.length !== 0) {
             return res.json({
-                message: 'Someone aleady invited this email!',
+                message: 'Someone already invited this email!',
                 code: 409
             })
           
@@ -325,7 +325,6 @@ router.get('/api/v1/countverified/', async function(req, res) {
 })
 
 router.post('/api/v1/getuserbyemail', async function(req, res) {
-    console.log('ff')
     var email = req.body.email;
     let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(email)) {

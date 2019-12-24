@@ -15,6 +15,7 @@
         $('#copyStatus_b').click(function() {
            let refLink = document.getElementById("demosharelink2").innerHTML
             document.getElementById("copyStatus_b").innerHTML = refLink;
+      
             
           });
           
