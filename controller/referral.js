@@ -7,10 +7,10 @@ var Format = require('s3-append').Format;
 var S3Config = require('s3-append').S3Config;
 var titleCase = require('title-case');
 var config = new S3Config({
-    "accessKeyId": "AKIAI7C2USFYPFULQXEQ",
-    "secretAccessKey": "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",
+    "accessKeyId": "",
+    "secretAccessKey": "",
     "region": "us-east-2",
-    "bucket": "nannyfix-campaign"
+    "bucket": ""
 });
 
 let S3Append = require('s3-append').S3Append;
