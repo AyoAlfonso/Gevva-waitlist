@@ -77,7 +77,7 @@ module.exports = {
           url: 'https://api.sendgrid.com/v3/marketing/contacts',
           headers: 
            { 'cache-control': 'no-cache',
-             Authorization:  `Bearer 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`,
+             Authorization:  `Bearer `,
              'Content-Type': 'application/json' },
           body: 
            { list_ids: [list_id],
